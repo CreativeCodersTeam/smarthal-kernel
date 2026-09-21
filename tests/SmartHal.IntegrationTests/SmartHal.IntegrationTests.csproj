@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <!-- C-6: the host fixture collects logs through FakeLogCollector, so tests need no Serilog type. -->
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.Testing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/SmartHal.Server/SmartHal.Server.csproj" />
+  </ItemGroup>
+
+</Project>

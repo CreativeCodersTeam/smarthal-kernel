@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Description>SDK for SmartHal adapter authors: the adapter interface, the candidate and capability mapping types and helpers for both connection kinds. Empty in slice 0.</Description>
+    <PackageTags>smarthal;adapter;sdk</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../SmartHal.Contracts/SmartHal.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Tool of the namespace rules (C-5); versions live in Directory.Packages.props (FR-47). -->
+  <ItemGroup>
+    <PackageReference Include="TngTech.ArchUnitNET" />
+    <PackageReference Include="TngTech.ArchUnitNET.xUnitV3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/SmartHal.Contracts/SmartHal.Contracts.csproj" />
+    <ProjectReference Include="../../src/SmartHal.Adapter.Sdk/SmartHal.Adapter.Sdk.csproj" />
+    <ProjectReference Include="../../src/SmartHal.Automation.Sdk/SmartHal.Automation.Sdk.csproj" />
+    <ProjectReference Include="../../src/SmartHal.Core.Abstractions/SmartHal.Core.Abstractions.csproj" />
+    <ProjectReference Include="../../src/SmartHal.Core/SmartHal.Core.csproj" />
+    <ProjectReference Include="../../src/SmartHal.Server/SmartHal.Server.csproj" />
+    <ProjectReference Include="../../src/SmartHal.Cli/SmartHal.Cli.csproj" />
+  </ItemGroup>
+
+</Project>

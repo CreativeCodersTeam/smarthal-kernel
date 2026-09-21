@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Description>Shared contracts of SmartHal for the BFF team: API models, the manifest schema and the bus messages. Empty in slice 0.</Description>
+    <PackageTags>smarthal;contracts</PackageTags>
+  </PropertyGroup>
+
+</Project>

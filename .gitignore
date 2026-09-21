@@ -57,3 +57,5 @@ TestResult.xml
 nunit-*.xml
 
 .idea
+# macOS
+.DS_Store

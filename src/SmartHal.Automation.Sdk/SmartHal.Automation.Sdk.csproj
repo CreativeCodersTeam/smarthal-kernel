@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Description>SDK for SmartHal automation authors: capability interfaces, trigger and parameter attributes, the manifest generator and the host binding. Empty in slice 0.</Description>
+    <PackageTags>smarthal;automation;sdk</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../SmartHal.Contracts/SmartHal.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

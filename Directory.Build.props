@@ -1,0 +1,66 @@
+<Project>
+
+  <!-- Properties shared by every project (FR-44, FR-46, FR-49, FR-51). -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>latest-Recommended</AnalysisLevel>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <!-- Only the three contract projects produce packages; everything else stays internal (FR-11). -->
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+  </PropertyGroup>
+
+  <!--
+    Reproducible builds with source links for every project (FR-72, NFR-3). The repository version
+    itself comes from GitVersion; see VERSIONING.md.
+  -->
+  <PropertyGroup>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+  </PropertyGroup>
+
+  <!-- Only a build on the hosted runner is a continuous integration build (FR-72). -->
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <!--
+    Package metadata shared by the three published packages (FR-71). Each project adds its own
+    Description for its target audience; the README of each package is packed next to it.
+  -->
+  <PropertyGroup>
+    <Authors>CreativeCodersTeam</Authors>
+    <Company>CreativeCodersTeam</Company>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/CreativeCodersTeam/smarthal-kernel</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/CreativeCodersTeam/smarthal-kernel.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <!--
+    The README travels inside the package and names its target audience (FR-71, AC-26). Only the
+    three published projects carry a README of their own, so the item is bound to its existence -
+    IsPackable cannot be tested here because the projects set it after this file is imported.
+  -->
+  <PropertyGroup>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup Condition="Exists('$(MSBuildProjectDirectory)/README.md')">
+    <None Include="README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+</Project>

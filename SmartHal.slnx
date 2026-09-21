@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SmartHal.Adapter.Sdk/SmartHal.Adapter.Sdk.csproj" />
+    <Project Path="src/SmartHal.Automation.Sdk/SmartHal.Automation.Sdk.csproj" />
+    <Project Path="src/SmartHal.Cli/SmartHal.Cli.csproj" />
+    <Project Path="src/SmartHal.Contracts/SmartHal.Contracts.csproj" />
+    <Project Path="src/SmartHal.Core.Abstractions/SmartHal.Core.Abstractions.csproj" />
+    <Project Path="src/SmartHal.Core/SmartHal.Core.csproj" />
+    <Project Path="src/SmartHal.Server/SmartHal.Server.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SmartHal.Adapter.Sdk.UnitTests/SmartHal.Adapter.Sdk.UnitTests.csproj" />
+    <Project Path="tests/SmartHal.ArchitectureTests/SmartHal.ArchitectureTests.csproj" />
+    <Project Path="tests/SmartHal.Automation.Sdk.UnitTests/SmartHal.Automation.Sdk.UnitTests.csproj" />
+    <Project Path="tests/SmartHal.Cli.UnitTests/SmartHal.Cli.UnitTests.csproj" />
+    <Project Path="tests/SmartHal.Contracts.UnitTests/SmartHal.Contracts.UnitTests.csproj" />
+    <Project Path="tests/SmartHal.Core.Abstractions.UnitTests/SmartHal.Core.Abstractions.UnitTests.csproj" />
+    <Project Path="tests/SmartHal.Core.UnitTests/SmartHal.Core.UnitTests.csproj" />
+    <Project Path="tests/SmartHal.IntegrationTests/SmartHal.IntegrationTests.csproj" />
+    <Project Path="tests/SmartHal.Server.UnitTests/SmartHal.Server.UnitTests.csproj" />
+  </Folder>
+</Solution>

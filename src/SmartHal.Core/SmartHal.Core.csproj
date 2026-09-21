@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="../SmartHal.Core.Abstractions/SmartHal.Core.Abstractions.csproj" />
+    <ProjectReference Include="../SmartHal.Adapter.Sdk/SmartHal.Adapter.Sdk.csproj" />
+    <ProjectReference Include="../SmartHal.Contracts/SmartHal.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

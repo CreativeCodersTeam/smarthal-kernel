@@ -1,0 +1,29 @@
+<Project>
+
+  <!-- The root properties must apply to test projects too; MSBuild would otherwise stop at this file. -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <!-- No test project is ever shipped as a NuGet package (FR-48). -->
+    <IsPackable>false</IsPackable>
+    <!-- The .NET 10 SDK runs xUnit v3 only through Microsoft.Testing.Platform. -->
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+    <!--
+      G-19: per FR-65 the unit test projects of the empty production projects deliberately carry no
+      placeholder test. Microsoft.Testing.Platform ends a test project without tests with exit code 8;
+      without this line `dotnet test` over the solution would fail even though no test is red.
+      Remove this line once every test project carries tests.
+    -->
+    <TestingPlatformCommandLineArguments>--ignore-exit-code 8</TestingPlatformCommandLineArguments>
+  </PropertyGroup>
+
+  <!-- Mandated test stack for every test project (FR-48, FR-62). -->
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="FakeItEasy" />
+    <PackageReference Include="AwesomeAssertions" />
+  </ItemGroup>
+
+</Project>

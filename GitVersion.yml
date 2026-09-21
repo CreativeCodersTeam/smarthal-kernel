@@ -1,0 +1,30 @@
+# Version configuration for the whole repository (FR-66, FR-67, FR-68, FR-69).
+#
+# The version is derived from the git history alone and is maintained nowhere by hand - this file
+# holds no version number either. A release is a tag `v<SemVer>` on `main`; every build that is not
+# on such a tag is a prerelease. See VERSIONING.md.
+
+mode: ContinuousDelivery
+tag-prefix: 'v'
+
+branches:
+
+  # `main` is always releasable and carries no prerelease label (FR-68).
+  main:
+    regex: ^master$|^main$
+    mode: ContinuousDelivery
+    label: ''
+    # While the version is below 1.0.0 a breaking change raises the minor place, so an ordinary
+    # commit bumps the patch place; a breaking change is announced with `+semver: minor` (FR-69).
+    increment: Patch
+    is-main-branch: true
+    source-branches: [feature]
+
+  # Short-lived work happens in `feature/*`; the branch name becomes the prerelease label.
+  feature:
+    # The named group is what `{BranchName}` below is replaced with.
+    regex: ^features?[/-](?<BranchName>.+)
+    mode: ContinuousDelivery
+    label: '{BranchName}'
+    increment: Inherit
+    source-branches: [main]

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <!-- FR-42: the readiness events are asserted by their EventId, which FakeLogger records. -->
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.Testing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/SmartHal.Server/SmartHal.Server.csproj" />
+  </ItemGroup>
+
+</Project>
