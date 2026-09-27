@@ -59,3 +59,5 @@ nunit-*.xml
 .idea
 # macOS
 .DS_Store
+
+*.DotSettings.user
