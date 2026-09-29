@@ -61,3 +61,4 @@ nunit-*.xml
 .DS_Store
 
 *.DotSettings.user
+.tokensave
