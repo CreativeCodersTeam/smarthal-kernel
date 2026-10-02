@@ -33,13 +33,14 @@ public sealed class ProjectPropertiesTests
         "Microsoft.Testing.Extensions.TrxReport"
     ];
 
+    // The test projects of the production projects that are still empty. SmartHal.Contracts and SmartHal.Core carry
+    // the domain model, the core catalog and the contract validator, so their test projects hold real tests and are
+    // no longer listed here.
     private static readonly string[] EmptyUnitTestProjectNames =
     [
-        "SmartHal.Contracts.UnitTests",
         "SmartHal.Adapter.Sdk.UnitTests",
         "SmartHal.Automation.Sdk.UnitTests",
         "SmartHal.Core.Abstractions.UnitTests",
-        "SmartHal.Core.UnitTests",
         "SmartHal.Cli.UnitTests"
     ];
 

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <IsPackable>true</IsPackable>
-    <Description>Shared contracts of SmartHal for the BFF team: API models, the manifest schema and the bus messages. Empty in slice 0.</Description>
+    <Description>Shared contracts of SmartHal for the BFF team: the protocol-neutral IoT domain model (schema, instances, runtime objects, integration), the API models and the bus messages, with their JSON form.</Description>
     <PackageTags>smarthal;contracts</PackageTags>
   </PropertyGroup>
 

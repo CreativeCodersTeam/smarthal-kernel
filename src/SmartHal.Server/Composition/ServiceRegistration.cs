@@ -1,9 +1,12 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SmartHal.Core.Abstractions.Validation;
+using SmartHal.Core.Validation;
 using SmartHal.Server.Configuration;
 using SmartHal.Server.Health;
 using SmartHal.Server.Hosting;
@@ -117,6 +120,28 @@ public static class ServiceRegistration
             serviceProvider.GetRequiredService<IHostApplicationLifetime>(),
             serviceProvider.GetRequiredService<ILogger<ShutdownSignalHandler>>(),
             Environment.Exit));
+
+        return services;
+    }
+
+    /// <summary>
+    /// Registers the contract validator that checks schema types and instances against the structural rules of the
+    /// contracts.
+    /// </summary>
+    /// <param name="services">The service collection of the host.</param>
+    /// <returns><paramref name="services"/>, so further registrations can be chained.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="services"/> is <see langword="null"/>.</exception>
+    /// <remarks>
+    /// The validator is stateless and thread-safe, so a single instance serves the whole process. It is registered
+    /// through its abstraction only; consumers depend on <see cref="IContractValidator"/>. The registration is
+    /// idempotent: a repeated call, or an implementation registered before it, leaves the existing registration in
+    /// place.
+    /// </remarks>
+    public static IServiceCollection AddSmartHalValidation(this IServiceCollection services)
+    {
+        ArgumentNullException.ThrowIfNull(services);
+
+        services.TryAddSingleton<IContractValidator, ContractValidator>();
 
         return services;
     }

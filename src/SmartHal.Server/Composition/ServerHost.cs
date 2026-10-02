@@ -58,6 +58,7 @@ public static class ServerHost
         {
             // Step 1 - build the configuration (section 6.3).
             builder = Host.CreateApplicationBuilder(args);
+
             ConfigurationStack.Apply(builder);
             externalFile = ConfigurationStack.ExternalConfigurationFileOf(builder);
         }
@@ -80,6 +81,7 @@ public static class ServerHost
         builder.Services.AddSmartHalOptions(builder.Configuration);
         builder.Services.AddSmartHalHealth();
         builder.Services.AddSmartHalHosting();
+        builder.Services.AddSmartHalValidation();
 
         configure?.Invoke(builder);
 

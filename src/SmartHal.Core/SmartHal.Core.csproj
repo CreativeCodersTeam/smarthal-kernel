@@ -6,4 +6,12 @@
     <ProjectReference Include="../SmartHal.Contracts/SmartHal.Contracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!--
+      The regression test of the reference analysis counts how often the reference graph expands a data type - the
+      only deterministic proof that shared data types are expanded once and not once per path.
+    -->
+    <InternalsVisibleTo Include="SmartHal.Core.UnitTests" />
+  </ItemGroup>
+
 </Project>
