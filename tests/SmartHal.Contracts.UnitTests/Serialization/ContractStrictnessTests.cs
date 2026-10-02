@@ -14,7 +14,7 @@ namespace SmartHal.Contracts.UnitTests.Serialization;
 public sealed class ContractStrictnessTests
 {
     // A copy is created once: CA1869 asks for cached options, and the copy is what the test examines.
-    private static readonly JsonSerializerOptions CopiedOptions = new(ContractsJson.Options);
+    private static readonly JsonSerializerOptions CopiedOptions = new JsonSerializerOptions(ContractsJson.Options);
 
     [Theory]
     [InlineData("""{"type":"enum"}""")]
@@ -90,7 +90,8 @@ public sealed class ContractStrictnessTests
         json.Should().Be("""{"unit":"bar"}""");
     }
 
-    public static TheoryData<TypeRef> InvalidTypeRefs => new()
+    public static TheoryData<TypeRef> InvalidTypeRefs =>
+        new TheoryData<TypeRef>
     {
         default(TypeRef),
         new TypeRef("a@b", 1),

@@ -190,7 +190,7 @@ public sealed class ProcessRunOptions
     /// A map of variable name to value on top of the inherited environment; a
     /// <see langword="null"/> value removes an inherited variable.
     /// </value>
-    public Dictionary<string, string?> EnvironmentVariables { get; } = new(StringComparer.Ordinal);
+    public Dictionary<string, string?> EnvironmentVariables { get; } = new Dictionary<string, string?>(StringComparer.Ordinal);
 
     /// <summary>
     /// Gets the command line arguments the server assembly is started with.

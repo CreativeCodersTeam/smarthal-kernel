@@ -55,5 +55,6 @@ internal static class LimitAlarms
     }
 
     private static AlarmDef Create(string property, string unit, Severity severity, AlarmCondition condition, string message) =>
-        new(severity, message, new RuleAlarmSource(property, condition), Parameters(unit, limit: null, DefaultDelay, hysteresis: 0));
+        new AlarmDef(severity, message, new RuleAlarmSource(property, condition),
+            Parameters(unit, limit: null, DefaultDelay, hysteresis: 0));
 }

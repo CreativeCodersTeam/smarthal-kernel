@@ -29,11 +29,11 @@ public static class ServerTelemetry
     /// component boundaries runs through the <see cref="Activity"/> it starts, using W3C
     /// TraceContext; there is no separate correlation identifier (FR-36).
     /// </value>
-    public static ActivitySource ActivitySource { get; } = new(TelemetryName);
+    public static ActivitySource ActivitySource { get; } = new ActivitySource(TelemetryName);
 
     /// <summary>
     /// Gets the meter of this assembly.
     /// </summary>
     /// <value>A meter named after the assembly, for example <c>SmartHal.Server</c>.</value>
-    public static Meter Meter { get; } = new(TelemetryName);
+    public static Meter Meter { get; } = new Meter(TelemetryName);
 }

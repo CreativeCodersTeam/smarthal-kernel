@@ -33,9 +33,9 @@ public sealed class ServerHostHarness : IAsyncDisposable
 {
     private readonly HarnessOptions _options;
 
-    private readonly Dictionary<string, string?> _originalEnvironmentVariables = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, string?> _originalEnvironmentVariables = new Dictionary<string, string?>(StringComparer.Ordinal);
 
-    private readonly TaskCompletionSource _startSignal = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private readonly TaskCompletionSource _startSignal = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
     // The collector belongs to the harness rather than to the host, so the log of a start that was
     // aborted before its hosted services - an invalid configuration, for example - is readable too.

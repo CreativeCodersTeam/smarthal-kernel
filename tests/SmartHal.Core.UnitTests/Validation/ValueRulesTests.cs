@@ -17,9 +17,10 @@ namespace SmartHal.Core.UnitTests.Validation;
 /// </summary>
 public sealed class ValueRulesTests
 {
-    private readonly ContractValidator _sut = new();
+    private readonly ContractValidator _sut = new ContractValidator();
 
-    public static TheoryData<DataType, string, string> InvalidDataTypes => new()
+    public static TheoryData<DataType, string, string> InvalidDataTypes =>
+        new TheoryData<DataType, string, string>
     {
         { new StringType(MaxLength: -1), ValidationCodes.InvalidRange, "dataType.maxLength" },
         { new ArrayType(new BooleanType(), MaxItems: -1), ValidationCodes.InvalidRange, "dataType.maxItems" },
@@ -89,7 +90,8 @@ public sealed class ValueRulesTests
         errors.Should().BeEmpty();
     }
 
-    public static TheoryData<HistoryPolicy, string, string> InvalidPolicies => new()
+    public static TheoryData<HistoryPolicy, string, string> InvalidPolicies =>
+        new TheoryData<HistoryPolicy, string, string>
     {
         { new HistoryPolicy(TimeSpan.Zero), ValidationCodes.InvalidDuration, "rawRetention" },
         { Policy(new Rollup(TimeSpan.Zero, [RollupAggregate.Avg], TimeSpan.FromDays(1))), ValidationCodes.InvalidDuration,
@@ -138,7 +140,7 @@ public sealed class ValueRulesTests
         // Arrange
         var capability = LevelCapability() with
         {
-            HistoryOverrides = new Dictionary<string, HistoryPolicy> { ["level"] = new(TimeSpan.Zero) }
+            HistoryOverrides = new Dictionary<string, HistoryPolicy> { ["level"] = new HistoryPolicy(TimeSpan.Zero) }
         };
 
         // Act
@@ -257,7 +259,7 @@ public sealed class ValueRulesTests
     }
 
     private static HistoryPolicy Policy(Rollup? rollup = null, Deadband? deadband = null) =>
-        new(TimeSpan.FromDays(30), rollup is null ? null : [rollup], deadband);
+        new HistoryPolicy(TimeSpan.FromDays(30), rollup is null ? null : [rollup], deadband);
 
     private static CapabilityType WithCommandTimeout(TimeSpan timeout)
     {

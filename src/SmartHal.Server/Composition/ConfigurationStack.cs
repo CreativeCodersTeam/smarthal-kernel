@@ -131,7 +131,7 @@ public static class ConfigurationStack
 internal sealed record ExternalConfigurationFile(string? FilePath, bool Exists)
 {
     /// <summary>The state for a process that was started without the environment variable.</summary>
-    public static ExternalConfigurationFile NotConfigured { get; } = new(null, false);
+    public static ExternalConfigurationFile NotConfigured { get; } = new ExternalConfigurationFile(null, false);
 
     /// <summary>
     /// Inspects the configured path before the configuration is built.

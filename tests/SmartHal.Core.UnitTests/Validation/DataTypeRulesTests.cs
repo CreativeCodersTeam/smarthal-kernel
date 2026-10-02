@@ -13,7 +13,7 @@ namespace SmartHal.Core.UnitTests.Validation;
 /// </summary>
 public sealed class DataTypeRulesTests
 {
-    private readonly ContractValidator _sut = new();
+    private readonly ContractValidator _sut = new ContractValidator();
 
     [Fact]
     public void Validate_StructTwoLevelsDeep_ReportsNothing()
@@ -200,8 +200,8 @@ public sealed class DataTypeRulesTests
         errors.Should().BeEmpty("references are resolved only against a catalog");
     }
 
-    private static DataTypeDef Define(DataType dataType) => new("test.types.sample", new TypeVersion(1, 0), dataType);
+    private static DataTypeDef Define(DataType dataType) => new DataTypeDef("test.types.sample", new TypeVersion(1, 0), dataType);
 
     private static ObjectType Struct(params (string Name, DataType Type)[] fields) =>
-        new(fields.ToDictionary(field => field.Name, field => field.Type));
+        new ObjectType(fields.ToDictionary(field => field.Name, field => field.Type));
 }

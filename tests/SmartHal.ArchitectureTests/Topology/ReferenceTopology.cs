@@ -16,25 +16,17 @@ internal sealed record ReferenceTopology(
     /// The topology exactly as the specification writes it down; the table is exhaustive, so every
     /// reference that is not listed here is forbidden (IF-2, FR-4).
     /// </summary>
-    public static ReferenceTopology Specification { get; } = new(
+    public static ReferenceTopology Specification { get; } = new ReferenceTopology(
         new Dictionary<string, IReadOnlySet<string>>(StringComparer.Ordinal)
         {
             ["SmartHal.Contracts"] = NamesOf(),
             ["SmartHal.Adapter.Sdk"] = NamesOf("SmartHal.Contracts"),
             ["SmartHal.Automation.Sdk"] = NamesOf("SmartHal.Contracts"),
             ["SmartHal.Core.Abstractions"] = NamesOf("SmartHal.Adapter.Sdk", "SmartHal.Contracts"),
-            ["SmartHal.Core"] = NamesOf(
-                "SmartHal.Core.Abstractions",
-                "SmartHal.Adapter.Sdk",
-                "SmartHal.Contracts"),
-            ["SmartHal.Server"] = NamesOf(
-                "SmartHal.Core",
-                "SmartHal.Core.Abstractions",
-                "SmartHal.Adapter.Sdk",
-                "SmartHal.Contracts"),
+            ["SmartHal.Core"] = NamesOf("SmartHal.Core.Abstractions", "SmartHal.Adapter.Sdk", "SmartHal.Contracts"),
+            ["SmartHal.Server"] = NamesOf("SmartHal.Core", "SmartHal.Core.Abstractions", "SmartHal.Adapter.Sdk", "SmartHal.Contracts"),
             ["SmartHal.Cli"] = NamesOf("SmartHal.Contracts")
-        },
-        NamesOf("SmartHal.Contracts", "SmartHal.Adapter.Sdk", "SmartHal.Automation.Sdk"),
+        }, NamesOf("SmartHal.Contracts", "SmartHal.Adapter.Sdk", "SmartHal.Automation.Sdk"),
         NamesOf("SmartHal.Core.Abstractions", "SmartHal.Core", "SmartHal.Server", "SmartHal.Cli"));
 
     private static HashSet<string> NamesOf(params string[] projectNames)

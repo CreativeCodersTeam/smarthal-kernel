@@ -13,7 +13,7 @@ namespace SmartHal.Core.UnitTests.Validation;
 /// </summary>
 public sealed class EcmaPatternTests
 {
-    private readonly ContractValidator _sut = new();
+    private readonly ContractValidator _sut = new ContractValidator();
 
     [Theory]
     [InlineData("[]")]
@@ -139,5 +139,5 @@ public sealed class EcmaPatternTests
     }
 
     private static DataTypeDef Definition(string pattern) =>
-        new("vendor.code", new TypeVersion(1, 0), new StringType(Pattern: pattern));
+        new DataTypeDef("vendor.code", new TypeVersion(1, 0), new StringType(Pattern: pattern));
 }

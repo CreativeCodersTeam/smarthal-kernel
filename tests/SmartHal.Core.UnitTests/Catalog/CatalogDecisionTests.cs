@@ -15,7 +15,8 @@ public sealed class CatalogDecisionTests
 {
     private static readonly string[] CoverMovingCommands = ["open", "close", "setPosition"];
 
-    public static TheoryData<string, string, string, Severity> MeasuredQuantities => new()
+    public static TheoryData<string, string, string, Severity> MeasuredQuantities =>
+        new TheoryData<string, string, string, Severity>
     {
         { "core.temperature", "value", "Cel", Severity.Warning },
         { "core.humidity", "value", "%", Severity.Warning },

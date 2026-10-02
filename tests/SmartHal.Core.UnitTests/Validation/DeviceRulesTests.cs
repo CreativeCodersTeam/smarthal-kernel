@@ -12,7 +12,7 @@ namespace SmartHal.Core.UnitTests.Validation;
 /// </summary>
 public sealed class DeviceRulesTests
 {
-    private readonly ContractValidator _sut = new();
+    private readonly ContractValidator _sut = new ContractValidator();
 
     [Fact]
     public void Validate_RealDeviceWithoutDeviceType_ReportsMissingDeviceType()

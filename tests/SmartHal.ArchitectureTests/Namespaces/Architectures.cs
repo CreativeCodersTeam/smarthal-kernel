@@ -21,9 +21,9 @@ internal static class Architectures
         "SmartHal.Cli"
     ];
 
-    private static readonly Lazy<Architecture> LazyProduction = new(LoadProduction);
+    private static readonly Lazy<Architecture> LazyProduction = new Lazy<Architecture>(LoadProduction);
 
-    private static readonly Lazy<Architecture> LazyProbe = new(LoadProbe);
+    private static readonly Lazy<Architecture> LazyProbe = new Lazy<Architecture>(LoadProbe);
 
     /// <summary>The seven production assemblies; every rule must hold here.</summary>
     public static Architecture Production => LazyProduction.Value;

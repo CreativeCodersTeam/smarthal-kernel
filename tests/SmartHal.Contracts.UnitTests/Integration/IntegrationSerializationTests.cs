@@ -17,7 +17,8 @@ namespace SmartHal.Contracts.UnitTests.Integration;
 /// </summary>
 public sealed class IntegrationSerializationTests
 {
-    public static TheoryData<TransformStep, string> TransformSteps => new()
+    public static TheoryData<TransformStep, string> TransformSteps =>
+        new TheoryData<TransformStep, string>
     {
         { new ScaleStep(0.01), """{"fn":"scale","factor":0.01}""" },
         { new OffsetStep(-40), """{"fn":"offset","value":-40}""" },
@@ -31,7 +32,8 @@ public sealed class IntegrationSerializationTests
         }
     };
 
-    public static TheoryData<Substitution, string> Substitutions => new()
+    public static TheoryData<Substitution, string> Substitutions =>
+        new TheoryData<Substitution, string>
     {
         {
             new ThresholdSubstitution("setLevel", new TypeRef("core.onoff", 1), "level", 0, new MemberCall("on"), new MemberCall("off")),
@@ -42,7 +44,7 @@ public sealed class IntegrationSerializationTests
                 "setMode",
                 new TypeRef("core.onoff", 1),
                 "mode",
-                new Dictionary<string, MemberCall> { ["heat"] = new("on"), ["off"] = new("off") }),
+                new Dictionary<string, MemberCall> { ["heat"] = new MemberCall("on"), ["off"] = new MemberCall("off") }),
             """{"pattern":"enumMap","param":"mode","map":{"heat":{"command":"on"},"off":{"command":"off"}},"command":"setMode","memberType":"core.onoff@1"}"""
         },
         {

@@ -14,7 +14,7 @@ public sealed class HarnessOptions
     /// An in-memory source that the harness appends as the seventh and last source, behind the
     /// command line, so an override always wins.
     /// </value>
-    public Dictionary<string, string?> Configuration { get; } = new(StringComparer.Ordinal);
+    public Dictionary<string, string?> Configuration { get; } = new Dictionary<string, string?>(StringComparer.Ordinal);
 
     /// <summary>
     /// Gets or sets the host environment the process is started in.
@@ -36,7 +36,7 @@ public sealed class HarnessOptions
     /// harness sets them process wide and restores the previous values when it is disposed, so tests
     /// using it belong in the <c>ProcessEnvironment</c> collection.
     /// </value>
-    public Dictionary<string, string?> EnvironmentVariables { get; } = new(StringComparer.Ordinal);
+    public Dictionary<string, string?> EnvironmentVariables { get; } = new Dictionary<string, string?>(StringComparer.Ordinal);
 
     /// <summary>
     /// Gets or sets a callback that registers additional services.
@@ -52,7 +52,7 @@ public sealed class HarnessOptions
     /// <see cref="Environment.Exit(int)"/>. A second <c>SIGINT</c> therefore records its exit code
     /// here instead of ending the test run (C-4).
     /// </value>
-    public TerminateRecorder TerminateRecorder { get; } = new();
+    public TerminateRecorder TerminateRecorder { get; } = new TerminateRecorder();
 
     /// <summary>
     /// Gets or sets a value indicating whether the harness supplies a temporary data directory.

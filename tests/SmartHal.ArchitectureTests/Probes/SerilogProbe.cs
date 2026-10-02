@@ -9,7 +9,7 @@ namespace SmartHal.Server.Probes;
 /// </summary>
 internal static class SerilogProbe
 {
-    private static readonly ProbeSink Sink = new("probe: ");
+    private static readonly ProbeSink Sink = new ProbeSink("probe: ");
 
     /// <summary>
     /// Forwards a message to the faked Serilog sink.

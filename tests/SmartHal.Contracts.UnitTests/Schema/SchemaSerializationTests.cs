@@ -184,7 +184,7 @@ public sealed class SchemaSerializationTests
             new TypeVersion(1, 0),
             new Dictionary<string, PropertyDef>
             {
-                ["value"] = new(
+                ["value"] = new PropertyDef(
                     bar,
                     PropertyCategory.State,
                     History: new HistoryPolicy(
@@ -200,25 +200,25 @@ public sealed class SchemaSerializationTests
             },
             new Dictionary<string, CommandDef>
             {
-                ["calibrate"] = new(
+                ["calibrate"] = new CommandDef(
                     Completion.Result,
                     TimeSpan.FromSeconds(30),
                     new Dictionary<string, DataType> { ["reference"] = bar },
                     Result: bar,
                     RequiredParameters: ["reference"])
             },
-            new Dictionary<string, EventDef> { ["calibrated"] = new(Severity: Severity.Info) },
+            new Dictionary<string, EventDef> { ["calibrated"] = new EventDef(Severity: Severity.Info) },
             new Dictionary<string, AlarmDef>
             {
-                ["highLimit"] = new(
+                ["highLimit"] = new AlarmDef(
                     Severity.Major,
                     "Pressure above limit",
                     new RuleAlarmSource("value", AlarmCondition.Above),
                     new Dictionary<string, AlarmParameter>
                     {
-                        ["limit"] = new(bar),
-                        ["delay"] = new(new DurationType(), JsonValue.Create("PT10S")),
-                        ["hysteresis"] = new(bar, JsonValue.Create(0))
+                        ["limit"] = new AlarmParameter(bar),
+                        ["delay"] = new AlarmParameter(new DurationType(), JsonValue.Create("PT10S")),
+                        ["hysteresis"] = new AlarmParameter(bar, JsonValue.Create(0))
                     })
             });
     }

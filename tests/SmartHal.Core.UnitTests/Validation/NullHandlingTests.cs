@@ -18,7 +18,7 @@ namespace SmartHal.Core.UnitTests.Validation;
 /// </summary>
 public sealed class NullHandlingTests
 {
-    private readonly ContractValidator _sut = new();
+    private readonly ContractValidator _sut = new ContractValidator();
 
     [Fact]
     public void Validate_RequiredParameterWhoseTypeIsNull_ReportsOnlyTheNullEntry()
@@ -76,7 +76,7 @@ public sealed class NullHandlingTests
         var level = Level();
         var type = level with
         {
-            Properties = new Dictionary<string, PropertyDef>(level.Properties) { ["mode"] = new(new EnumType(null!),
+            Properties = new Dictionary<string, PropertyDef>(level.Properties) { ["mode"] = new PropertyDef(new EnumType(null!),
                 PropertyCategory.State) }
         };
 

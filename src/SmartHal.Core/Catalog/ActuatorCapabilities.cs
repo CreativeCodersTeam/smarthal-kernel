@@ -128,9 +128,9 @@ public static class ActuatorCapabilities
     /// <remarks>Every access returns a new, independent instance, so no caller can affect another.</remarks>
     public static IReadOnlyList<CapabilityType> All => [OnOff, Level, Color, Cover, Thermostat, Lock];
 
-    private static NumberType ColorTemperatureType() => new(Units.Kelvin, 1000, 10000);
+    private static NumberType ColorTemperatureType() => new NumberType(Units.Kelvin, 1000, 10000);
 
-    private static EnumType ModeType() => new(["off", "heat", "cool", "auto"]);
+    private static EnumType ModeType() => new EnumType(["off", "heat", "cool", "auto"]);
 
-    private static NumberType SetpointType() => new(Units.Celsius, 5, 35, 0.5);
+    private static NumberType SetpointType() => new NumberType(Units.Celsius, 5, 35, 0.5);
 }

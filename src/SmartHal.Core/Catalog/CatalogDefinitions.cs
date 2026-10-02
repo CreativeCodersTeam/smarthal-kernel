@@ -10,7 +10,7 @@ namespace SmartHal.Core.Catalog;
 internal static class CatalogDefinitions
 {
     /// <summary>The version every type of the first core catalog carries.</summary>
-    public static readonly TypeVersion CoreVersion = new(1, 0);
+    public static readonly TypeVersion CoreVersion = new TypeVersion(1, 0);
 
     /// <summary>The timeout of a command with completion mode ack.</summary>
     public static readonly TimeSpan AckTimeout = TimeSpan.FromSeconds(10);
@@ -55,7 +55,7 @@ internal static class CatalogDefinitions
     /// </summary>
     /// <param name="step">The granularity of the value; <see langword="null"/> when any value is permitted.</param>
     /// <returns>The data type of the percentage.</returns>
-    public static NumberType Percentage(double? step = null) => new(Units.Percent, 0, 100, step);
+    public static NumberType Percentage(double? step = null) => new NumberType(Units.Percent, 0, 100, step);
 
     /// <summary>
     /// Creates a capability type of the core catalog in version 1.0.
@@ -74,14 +74,8 @@ internal static class CatalogDefinitions
         IReadOnlyDictionary<string, EventDef>? events = null,
         IReadOnlyDictionary<string, AlarmDef>? alarms = null,
         IReadOnlyList<string>? features = null) =>
-        new(
-            name,
-            CoreVersion,
-            properties,
-            commands ?? None<CommandDef>(),
-            events ?? None<EventDef>(),
-            alarms ?? None<AlarmDef>(),
-            features);
+        new CapabilityType(name, CoreVersion, properties, commands ?? None<CommandDef>(), events ?? None<EventDef>(),
+            alarms ?? None<AlarmDef>(), features);
 
     /// <summary>
     /// Creates a state property.
@@ -96,7 +90,7 @@ internal static class CatalogDefinitions
         Aggregation? aggregation = null,
         HistoryPolicy? history = null,
         string? feature = null) =>
-        new(dataType, PropertyCategory.State, Feature: feature, History: history, Aggregation: aggregation);
+        new PropertyDef(dataType, PropertyCategory.State, Feature: feature, History: history, Aggregation: aggregation);
 
     /// <summary>
     /// Creates a diagnostic property.
@@ -106,7 +100,7 @@ internal static class CatalogDefinitions
     /// <param name="history">The default history policy; <see langword="null"/> when the property is not historized.</param>
     /// <returns>The property definition.</returns>
     public static PropertyDef Diagnostic(DataType dataType, Aggregation? aggregation = null, HistoryPolicy? history = null) =>
-        new(dataType, PropertyCategory.Diagnostic, History: history, Aggregation: aggregation);
+        new PropertyDef(dataType, PropertyCategory.Diagnostic, History: history, Aggregation: aggregation);
 
     /// <summary>
     /// Creates a command that completes when the device acknowledges it.
@@ -119,7 +113,7 @@ internal static class CatalogDefinitions
         IReadOnlyDictionary<string, DataType>? parameters = null,
         IReadOnlyList<string>? required = null,
         IReadOnlyList<string>? affects = null) =>
-        new(Completion.Ack, AckTimeout, parameters, Affects: affects, RequiredParameters: required);
+        new CommandDef(Completion.Ack, AckTimeout, parameters, Affects: affects, RequiredParameters: required);
 
     /// <summary>
     /// Creates a command that completes when an affected property reaches its target value.
@@ -136,7 +130,7 @@ internal static class CatalogDefinitions
         IReadOnlyList<string>? required = null,
         string? feature = null,
         TimeSpan? timeout = null) =>
-        new(Completion.Confirmed, timeout ?? ConfirmedTimeout, parameters, Affects: affects, Feature: feature,
+        new CommandDef(Completion.Confirmed, timeout ?? ConfirmedTimeout, parameters, Affects: affects, Feature: feature,
             RequiredParameters: required);
 
     /// <summary>
@@ -152,7 +146,7 @@ internal static class CatalogDefinitions
         IReadOnlyDictionary<string, DataType>? parameters = null,
         IReadOnlyList<string>? required = null,
         TimeSpan? timeout = null) =>
-        new(Completion.Result, timeout ?? ResultTimeout, parameters, result, RequiredParameters: required);
+        new CommandDef(Completion.Result, timeout ?? ResultTimeout, parameters, result, RequiredParameters: required);
 
     /// <summary>
     /// Creates an alarm the device reports through one of the events of the capability.
@@ -162,5 +156,5 @@ internal static class CatalogDefinitions
     /// <param name="eventName">The name of the event that reports the alarm.</param>
     /// <returns>The alarm definition.</returns>
     public static AlarmDef DeviceAlarm(Severity severity, string message, string eventName) =>
-        new(severity, message, new DeviceAlarmSource(eventName));
+        new AlarmDef(severity, message, new DeviceAlarmSource(eventName));
 }

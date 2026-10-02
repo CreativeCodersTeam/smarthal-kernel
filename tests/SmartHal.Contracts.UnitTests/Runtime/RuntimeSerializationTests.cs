@@ -19,11 +19,8 @@ namespace SmartHal.Contracts.UnitTests.Runtime;
 /// </summary>
 public sealed class RuntimeSerializationTests
 {
-    private static readonly Address Pressure = new(
-        Guid.Parse("11111111-1111-1111-1111-111111111111"),
-        Guid.Parse("22222222-2222-2222-2222-222222222222"),
-        Guid.Parse("33333333-3333-3333-3333-333333333333"),
-        "value");
+    private static readonly Address Pressure = new Address(Guid.Parse("11111111-1111-1111-1111-111111111111"),
+        Guid.Parse("22222222-2222-2222-2222-222222222222"), Guid.Parse("33333333-3333-3333-3333-333333333333"), "value");
 
     private static readonly DateTimeOffset Now = DateTimeOffset.Parse("2026-09-30T12:00:00Z", CultureInfo.InvariantCulture);
 
@@ -62,7 +59,8 @@ public sealed class RuntimeSerializationTests
         act.Should().Throw<JsonException>();
     }
 
-    public static TheoryData<BusMessage, string> BusMessages => new()
+    public static TheoryData<BusMessage, string> BusMessages =>
+        new TheoryData<BusMessage, string>
     {
         {
             new StateChanged(

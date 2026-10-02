@@ -34,7 +34,7 @@ internal sealed class ReferenceGraph
     // State of Tarjan's algorithm.
     private readonly Dictionary<(string Name, int Major), int> _order = [];
     private readonly Dictionary<(string Name, int Major), int> _lowLink = [];
-    private readonly Stack<(string Name, int Major)> _stack = new();
+    private readonly Stack<(string Name, int Major)> _stack = new Stack<(string Name, int Major)>();
     private readonly HashSet<(string Name, int Major)> _onStack = [];
     private int _counter;
     private int _componentCount;

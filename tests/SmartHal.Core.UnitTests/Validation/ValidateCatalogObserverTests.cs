@@ -14,9 +14,10 @@ namespace SmartHal.Core.UnitTests.Validation;
 /// </summary>
 public sealed class ValidateCatalogObserverTests
 {
-    private static readonly TypeVersion V1 = new(1, 0);
+    private static readonly TypeVersion V1 = new TypeVersion(1, 0);
 
-    public static TheoryData<TypeCatalog> Catalogs => new()
+    public static TheoryData<TypeCatalog> Catalogs =>
+        new TheoryData<TypeCatalog>
     {
         new TypeCatalog([], [], []),
         new TypeCatalog(null!, null!, null!),
@@ -92,10 +93,10 @@ public sealed class ValidateCatalogObserverTests
         second.Should().NotBeNull().And.NotBeSameAs(first);
     }
 
-    private static DataTypeDef Define(string name, DataType dataType) => new(name, V1, dataType);
+    private static DataTypeDef Define(string name, DataType dataType) => new DataTypeDef(name, V1, dataType);
 
-    private static RefType Ref(string name) => new(new TypeRef(name, 1));
+    private static RefType Ref(string name) => new RefType(new TypeRef(name, 1));
 
     private static ObjectType Struct(params (string Name, DataType Type)[] fields) =>
-        new(fields.ToDictionary(field => field.Name, field => field.Type));
+        new ObjectType(fields.ToDictionary(field => field.Name, field => field.Type));
 }

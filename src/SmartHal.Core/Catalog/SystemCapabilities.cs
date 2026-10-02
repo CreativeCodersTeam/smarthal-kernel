@@ -157,5 +157,5 @@ public static class SystemCapabilities
     /// <remarks>Every access returns a new, independent instance, so no caller can affect another.</remarks>
     public static IReadOnlyList<CapabilityType> All => [DeviceInfo, Connectivity, Identify, Firmware, Battery, Bridge, Alarms];
 
-    private static ObjectType DeviceKeyPayload() => new(Map<DataType>(("deviceKey", new StringType())), ["deviceKey"]);
+    private static ObjectType DeviceKeyPayload() => new ObjectType(Map<DataType>(("deviceKey", new StringType())), ["deviceKey"]);
 }

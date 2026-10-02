@@ -23,9 +23,10 @@ public sealed class ApiSerializationTests
 {
     private static readonly DateTimeOffset Now = DateTimeOffset.Parse("2026-09-30T12:00:00Z", CultureInfo.InvariantCulture);
 
-    private static readonly Address Level = new(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), "level");
+    private static readonly Address Level = new Address(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), "level");
 
-    public static TheoryData<SubscriptionItem, string> SubscriptionItems => new()
+    public static TheoryData<SubscriptionItem, string> SubscriptionItems =>
+        new TheoryData<SubscriptionItem, string>
     {
         {
             new SnapshotItem([new PropertyState(Level, 40, Now, new Quality(QualityLevel.Good), StateOrigin.Virtual, 1)], "c-1"),
@@ -80,9 +81,9 @@ public sealed class ApiSerializationTests
         // Arrange
         HistoryPoint[] points =
         [
-            new(Now, QualityLevel.Good, Value: 8.2),
-            new(Now, QualityLevel.Uncertain, Min: 7.9, Max: 8.6, Avg: 8.2, Last: 8.4),
-            new(Now, QualityLevel.Good, Last: "running")
+            new HistoryPoint(Now, QualityLevel.Good, Value: 8.2),
+            new HistoryPoint(Now, QualityLevel.Uncertain, Min: 7.9, Max: 8.6, Avg: 8.2, Last: 8.4),
+            new HistoryPoint(Now, QualityLevel.Good, Last: "running")
         ];
 
         // Act

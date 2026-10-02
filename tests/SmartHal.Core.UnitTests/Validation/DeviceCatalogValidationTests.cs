@@ -16,7 +16,7 @@ namespace SmartHal.Core.UnitTests.Validation;
 /// </summary>
 public sealed class DeviceCatalogValidationTests
 {
-    private readonly ContractValidator _sut = new();
+    private readonly ContractValidator _sut = new ContractValidator();
 
     [Fact]
     public void Validate_UnresolvedDeviceType_ReportsUnresolvedTypeAndSkipsTheTemplateCheck()
@@ -189,8 +189,8 @@ public sealed class DeviceCatalogValidationTests
         // Arrange
         var capability = LevelCapability() with
         {
-            HistoryOverrides = new Dictionary<string, HistoryPolicy> { ["level"] = new(TimeSpan.FromDays(1)),
-                ["speed"] = new(TimeSpan.FromDays(1)) },
+            HistoryOverrides = new Dictionary<string, HistoryPolicy> { ["level"] = new HistoryPolicy(TimeSpan.FromDays(1)),
+                ["speed"] = new HistoryPolicy(TimeSpan.FromDays(1)) },
             AlarmParameters = new Dictionary<string, IReadOnlyDictionary<string, JsonNode?>>
             {
                 ["highLimit"] = new Dictionary<string, JsonNode?> { ["limit"] = 80, ["delay"] = "PT10S" },

@@ -9,7 +9,7 @@ namespace SmartHal.Contracts.Probes;
 /// </summary>
 internal static class HomeAssistantProbe
 {
-    private static readonly ProbeApi Api = new("probe.");
+    private static readonly ProbeApi Api = new ProbeApi("probe.");
 
     /// <summary>
     /// Forwards an alias to the faked Home Assistant client.

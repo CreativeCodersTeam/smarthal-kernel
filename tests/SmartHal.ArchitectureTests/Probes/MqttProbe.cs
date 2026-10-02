@@ -9,7 +9,7 @@ namespace SmartHal.Core.Probes;
 /// </summary>
 internal static class MqttProbe
 {
-    private static readonly ProbeClient Client = new("probe/");
+    private static readonly ProbeClient Client = new ProbeClient("probe/");
 
     /// <summary>
     /// Forwards a topic to the faked MQTT client.

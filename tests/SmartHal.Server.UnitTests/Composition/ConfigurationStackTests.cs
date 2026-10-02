@@ -31,7 +31,7 @@ public sealed class ConfigurationStackTests : IDisposable
     private readonly string _tempDirectory =
         Path.Combine(Path.GetTempPath(), $"smarthal-configuration-{Guid.NewGuid():N}");
 
-    private readonly Dictionary<string, string?> _originalVariables = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, string?> _originalVariables = new Dictionary<string, string?>(StringComparer.Ordinal);
 
     /// <summary>
     /// The three ways the external configuration file of <c>SMARTHAL_CONFIG_FILE</c> can present itself.

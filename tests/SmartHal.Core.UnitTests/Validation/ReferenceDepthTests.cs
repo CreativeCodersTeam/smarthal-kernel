@@ -17,9 +17,9 @@ namespace SmartHal.Core.UnitTests.Validation;
 /// </summary>
 public sealed class ReferenceDepthTests
 {
-    private static readonly TypeVersion V1 = new(1, 0);
+    private static readonly TypeVersion V1 = new TypeVersion(1, 0);
 
-    private readonly ContractValidator _sut = new();
+    private readonly ContractValidator _sut = new ContractValidator();
 
     [Fact]
     public void Validate_FourStructLevelsThroughReferences_ReportsStructTooDeepAtEachReference()
@@ -145,7 +145,7 @@ public sealed class ReferenceDepthTests
         var cyc = Define("x.cyc", Struct(("next", Ref("x.cyc"))));
         var capability = Level() with
         {
-            Properties = new Dictionary<string, PropertyDef> { ["level"] = new(Ref("x.cyc"), PropertyCategory.State) }
+            Properties = new Dictionary<string, PropertyDef> { ["level"] = new PropertyDef(Ref("x.cyc"), PropertyCategory.State) }
         };
 
         // Act
@@ -227,7 +227,7 @@ public sealed class ReferenceDepthTests
         var level = Level();
         var properties = new Dictionary<string, PropertyDef>(level.Properties)
         {
-            ["palette"] = new(Struct(("primary", new RefType(HsvRef)), ("nested", Struct(("color", new RefType(HsvRef))))),
+            ["palette"] = new PropertyDef(Struct(("primary", new RefType(HsvRef)), ("nested", Struct(("color", new RefType(HsvRef))))),
                 PropertyCategory.State)
         };
         // Major 2 stays in the catalog because the migration of the test catalog points to it.
@@ -269,12 +269,12 @@ public sealed class ReferenceDepthTests
                 $"f{f}",
                 i + 1 < types ? (DataType)Ref($"probe.t{i + 1}") : new BooleanType()))])))];
 
-    private static TypeCatalog DataTypesOnly(params DataTypeDef[] definitions) => new([], [], [], definitions);
+    private static TypeCatalog DataTypesOnly(params DataTypeDef[] definitions) => new TypeCatalog([], [], [], definitions);
 
-    private static DataTypeDef Define(string name, DataType dataType) => new(name, V1, dataType);
+    private static DataTypeDef Define(string name, DataType dataType) => new DataTypeDef(name, V1, dataType);
 
-    private static RefType Ref(string name) => new(new TypeRef(name, 1));
+    private static RefType Ref(string name) => new RefType(new TypeRef(name, 1));
 
     private static ObjectType Struct(params (string Name, DataType Type)[] fields) =>
-        new(fields.ToDictionary(field => field.Name, field => field.Type));
+        new ObjectType(fields.ToDictionary(field => field.Name, field => field.Type));
 }

@@ -11,7 +11,8 @@ namespace SmartHal.Contracts.UnitTests.Serialization;
 /// </summary>
 public sealed class IsoDurationConverterTests
 {
-    public static TheoryData<string, TimeSpan> ValidDurations => new()
+    public static TheoryData<string, TimeSpan> ValidDurations =>
+        new TheoryData<string, TimeSpan>
     {
         { "PT0S", TimeSpan.Zero },
         { "PT30S", TimeSpan.FromSeconds(30) },

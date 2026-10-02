@@ -27,8 +27,7 @@ public sealed class SmartHalOptionsValidatorTests : IDisposable
     private readonly string _tempDirectory =
         Path.Combine(Path.GetTempPath(), $"smarthal-validator-{Guid.NewGuid():N}");
 
-    private readonly SmartHalOptionsValidator _validator =
-        new(A.Fake<ILogger<SmartHalOptionsValidator>>());
+    private readonly SmartHalOptionsValidator _validator = new SmartHalOptionsValidator(A.Fake<ILogger<SmartHalOptionsValidator>>());
 
     public SmartHalOptionsValidatorTests()
     {
@@ -42,7 +41,8 @@ public sealed class SmartHalOptionsValidatorTests : IDisposable
     /// The instance name, the shutdown timeout - <see langword="null"/> leaves it at its default -
     /// and the field the violation is expected on, or <see langword="null"/> when the row is valid.
     /// </value>
-    public static TheoryData<string, string?, string?> RuleTable => new()
+    public static TheoryData<string, string?, string?> RuleTable =>
+        new TheoryData<string, string?, string?>
     {
         { "", null, "InstanceName" },
         { "   ", null, "InstanceName" },

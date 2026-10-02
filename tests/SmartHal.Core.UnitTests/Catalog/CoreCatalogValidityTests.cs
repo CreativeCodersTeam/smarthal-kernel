@@ -11,7 +11,7 @@ namespace SmartHal.Core.UnitTests.Catalog;
 /// </summary>
 public sealed class CoreCatalogValidityTests
 {
-    private readonly ContractValidator _validator = new();
+    private readonly ContractValidator _validator = new ContractValidator();
 
     public static TheoryData<string> CapabilityNames => [.. CoreCapabilityCatalog.All.Select(capability => capability.Name)];
 

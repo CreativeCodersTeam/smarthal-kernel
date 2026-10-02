@@ -20,7 +20,7 @@ namespace SmartHal.Contracts.UnitTests.Runtime;
 /// </summary>
 public sealed class RuntimeContractTests
 {
-    private static readonly Address Pressure = new(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), "value");
+    private static readonly Address Pressure = new Address(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), "value");
 
     private static readonly DateTimeOffset Now = DateTimeOffset.Parse("2026-09-30T12:00:00+02:00", CultureInfo.InvariantCulture);
 
@@ -213,7 +213,7 @@ public sealed class RuntimeContractTests
             new TypeVersion(1, 0),
             [],
             Guid.NewGuid(),
-            new Dictionary<string, HistoryPolicy> { ["value"] = new(TimeSpan.FromDays(7), Deadband: new Deadband(Relative: 0.05)) });
+            new Dictionary<string, HistoryPolicy> { ["value"] = new HistoryPolicy(TimeSpan.FromDays(7), Deadband: new Deadband(Relative: 0.05)) });
 
         // Act
         var json = JsonSerializer.Serialize(capability, ContractsJson.Options);
@@ -240,7 +240,8 @@ public sealed class RuntimeContractTests
         result!.Payload!["type"]!.GetValue<string>().Should().Be("double");
     }
 
-    public static TheoryData<Enum, string> EnumWireNames => new()
+    public static TheoryData<Enum, string> EnumWireNames =>
+        new TheoryData<Enum, string>
     {
         { DeviceLifecycle.Provisioned, "provisioned" },
         { DeviceLifecycle.Decommissioned, "decommissioned" },
@@ -306,5 +307,5 @@ public sealed class RuntimeContractTests
     }
 
     private static StateChanged StateChangedMessage(double value) =>
-        new(1, new PropertyState(Pressure, value, Now, new Quality(QualityLevel.Good), StateOrigin.Device, 1), 8.0);
+        new StateChanged(1, new PropertyState(Pressure, value, Now, new Quality(QualityLevel.Good), StateOrigin.Device, 1), 8.0);
 }

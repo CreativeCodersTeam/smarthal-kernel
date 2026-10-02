@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using AwesomeAssertions;
 using SmartHal.Contracts.DataTypes;
+using SmartHal.Contracts.Primitives;
 using SmartHal.Contracts.Schema;
 using SmartHal.Contracts.Serialization;
 using Xunit;
@@ -81,17 +82,17 @@ public sealed class SchemaContractTests
         // Arrange
         var capability = new CapabilityType(
             "vendor.acme.filter",
-            new(1, 0),
+            new TypeVersion(1, 0),
             new Dictionary<string, PropertyDef>
             {
-                ["DifferentialPressure"] = new(new NumberType("bar"), PropertyCategory.Diagnostic),
-                ["raw_value"] = new(new IntegerType(), PropertyCategory.Config, DeriveSetter: false, Feature: "raw")
+                ["DifferentialPressure"] = new PropertyDef(new NumberType("bar"), PropertyCategory.Diagnostic),
+                ["raw_value"] = new PropertyDef(new IntegerType(), PropertyCategory.Config, DeriveSetter: false, Feature: "raw")
             },
             new Dictionary<string, CommandDef>
             {
-                ["flush"] = new(Completion.Confirmed, TimeSpan.FromMinutes(2), Affects: ["DifferentialPressure"])
+                ["flush"] = new CommandDef(Completion.Confirmed, TimeSpan.FromMinutes(2), Affects: ["DifferentialPressure"])
             },
-            new Dictionary<string, EventDef> { ["clogged"] = new(new ObjectType(new Dictionary<string,
+            new Dictionary<string, EventDef> { ["clogged"] = new EventDef(new ObjectType(new Dictionary<string,
                 DataType> { ["Level"] = new IntegerType() })) },
             new Dictionary<string, AlarmDef>(),
             ["raw"]);

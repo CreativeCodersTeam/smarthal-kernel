@@ -25,7 +25,7 @@ public sealed class HealthStateMonitor : IHealthCheckPublisher
 {
     private readonly ILogger<HealthStateMonitor> _logger;
 
-    private readonly HealthStateTracker _tracker = new();
+    private readonly HealthStateTracker _tracker = new HealthStateTracker();
 
     private bool _hasPublished;
 

@@ -49,6 +49,13 @@ csharp_style_var_for_built_in_types = false:suggestion
 csharp_style_var_when_type_is_apparent = true:suggestion
 csharp_style_var_elsewhere = false:suggestion
 
+# --- object creation ---
+# `new` always names the type: target-typed `new()` hides what is created in arguments, returns and
+# collection expressions. Collection expressions (`[]`, `[..list]`) stay allowed.
+# This is a style convention only, not enforced in the build: IDE0090 can only suggest `new()`, never forbid it,
+# and Roslynator RCS1250 (`roslynator_object_creation_type_style = explicit`) also flags `[]` and `[..list]`.
+csharp_style_implicit_object_creation_when_type_is_apparent = false:suggestion
+
 # --- modern C# idioms ---
 csharp_style_expression_bodied_methods = when_on_single_line:suggestion
 csharp_style_expression_bodied_properties = true:suggestion

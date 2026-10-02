@@ -14,7 +14,8 @@ namespace SmartHal.Contracts.UnitTests.DataTypes;
 /// </summary>
 public sealed class DataTypeSerializationTests
 {
-    public static TheoryData<DataType, string> DataTypes => new()
+    public static TheoryData<DataType, string> DataTypes =>
+        new TheoryData<DataType, string>
     {
         { new BooleanType(), """{"type":"boolean"}""" },
         { new IntegerType(Minimum: 0, Maximum: 255), """{"type":"integer","minimum":0,"maximum":255}""" },

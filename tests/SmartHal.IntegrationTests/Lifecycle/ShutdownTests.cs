@@ -215,7 +215,7 @@ public sealed class ShutdownTests
     /// </summary>
     private sealed class UnstoppableService : IHostedService
     {
-        private readonly TaskCompletionSource _release = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         public void Release() => _release.TrySetResult();
 
@@ -232,7 +232,7 @@ public sealed class ShutdownTests
     private sealed class TokenObservingService : BackgroundService
     {
         private readonly TaskCompletionSource _stoppingTokenCancelled =
-            new(TaskCreationOptions.RunContinuationsAsynchronously);
+            new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         public Task StoppingTokenCancelled => _stoppingTokenCancelled.Task;
 

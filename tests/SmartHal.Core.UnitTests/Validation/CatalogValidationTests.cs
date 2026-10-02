@@ -14,7 +14,7 @@ namespace SmartHal.Core.UnitTests.Validation;
 /// </summary>
 public sealed class CatalogValidationTests
 {
-    private readonly ContractValidator _sut = new();
+    private readonly ContractValidator _sut = new ContractValidator();
 
     [Fact]
     public void Validate_EntryWithViolation_ReportsItWithTheListPrefix()
@@ -24,7 +24,7 @@ public sealed class CatalogValidationTests
         var broken = Level() with
         {
             Name = "core.broken",
-            Commands = new Dictionary<string, CommandDef> { ["calibrate"] = new(Completion.Result, TimeSpan.FromSeconds(1)) }
+            Commands = new Dictionary<string, CommandDef> { ["calibrate"] = new CommandDef(Completion.Result, TimeSpan.FromSeconds(1)) }
         };
         catalog = catalog with { Capabilities = [catalog.Capabilities[0], broken, catalog.Capabilities[1]] };
 

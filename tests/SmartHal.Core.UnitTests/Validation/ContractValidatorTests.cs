@@ -17,7 +17,7 @@ namespace SmartHal.Core.UnitTests.Validation;
 /// </summary>
 public sealed class ContractValidatorTests
 {
-    private readonly ContractValidator _sut = new();
+    private readonly ContractValidator _sut = new ContractValidator();
 
     [Fact]
     public void Validate_ValidFixtures_ReportNothing()
@@ -80,11 +80,11 @@ public sealed class ContractValidatorTests
         {
             Properties = new Dictionary<string, PropertyDef>(level.Properties)
             {
-                ["level"] = new(new NumberType("%", 100, 0), PropertyCategory.State, Feature: "fast")
+                ["level"] = new PropertyDef(new NumberType("%", 100, 0), PropertyCategory.State, Feature: "fast")
             },
             Commands = new Dictionary<string, CommandDef>(level.Commands)
             {
-                ["calibrate"] = new(Completion.Result, TimeSpan.FromSeconds(10))
+                ["calibrate"] = new CommandDef(Completion.Result, TimeSpan.FromSeconds(10))
             }
         };
 

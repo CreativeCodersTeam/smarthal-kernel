@@ -43,5 +43,5 @@ public static class CoreCapabilityCatalog
     /// type, and no channel profiles, device types or migrations. Every call returns a new, independent instance.
     /// </returns>
     public static TypeCatalog ToTypeCatalog() =>
-        new(All, ReadOnlyCollection<ChannelProfile>.Empty, ReadOnlyCollection<DeviceType>.Empty, [CoreDataTypes.Hsv]);
+        new TypeCatalog(All, ReadOnlyCollection<ChannelProfile>.Empty, ReadOnlyCollection<DeviceType>.Empty, [CoreDataTypes.Hsv]);
 }

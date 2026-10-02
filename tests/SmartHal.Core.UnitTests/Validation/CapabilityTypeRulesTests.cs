@@ -14,7 +14,7 @@ namespace SmartHal.Core.UnitTests.Validation;
 /// </summary>
 public sealed class CapabilityTypeRulesTests
 {
-    private readonly ContractValidator _sut = new();
+    private readonly ContractValidator _sut = new ContractValidator();
 
     [Fact]
     public void Validate_ResultCommandWithoutResultType_ReportsMissingResult()
@@ -130,11 +130,11 @@ public sealed class CapabilityTypeRulesTests
         {
             Properties = new Dictionary<string, PropertyDef>(level.Properties)
             {
-                ["height"] = new(new NumberType("m"), PropertyCategory.State, Feature: "height")
+                ["height"] = new PropertyDef(new NumberType("m"), PropertyCategory.State, Feature: "height")
             },
             Commands = new Dictionary<string, CommandDef>(level.Commands)
             {
-                ["measure"] = new(Completion.Ack, TimeSpan.FromSeconds(5), Feature: "height")
+                ["measure"] = new CommandDef(Completion.Ack, TimeSpan.FromSeconds(5), Feature: "height")
             }
         };
 
@@ -156,16 +156,16 @@ public sealed class CapabilityTypeRulesTests
         {
             Commands = new Dictionary<string, CommandDef>(level.Commands)
             {
-                ["setMode"] = new(Completion.Ack, TimeSpan.FromSeconds(5), new Dictionary<string, DataType> { ["mode"] = new EnumType([]) })
+                ["setMode"] = new CommandDef(Completion.Ack, TimeSpan.FromSeconds(5), new Dictionary<string, DataType> { ["mode"] = new EnumType([]) })
             },
-            Events = new Dictionary<string, EventDef> { ["blocked"] = new(new NumberType(Step: 0)) },
+            Events = new Dictionary<string, EventDef> { ["blocked"] = new EventDef(new NumberType(Step: 0)) },
             Alarms = new Dictionary<string, AlarmDef>
             {
-                ["highLimit"] = new(
+                ["highLimit"] = new AlarmDef(
                     Severity(),
                     "High",
                     new RuleAlarmSource("level", AlarmCondition.Above),
-                    new Dictionary<string, AlarmParameter> { ["limit"] = new(new NumberType(Minimum: 1, Maximum: 0)) })
+                    new Dictionary<string, AlarmParameter> { ["limit"] = new AlarmParameter(new NumberType(Minimum: 1, Maximum: 0)) })
             }
         };
 
@@ -187,7 +187,7 @@ public sealed class CapabilityTypeRulesTests
         var type = level with
         {
             Properties = new Dictionary<string, PropertyDef>(level.Properties) { ["speed"] = null! },
-            Alarms = new Dictionary<string, AlarmDef> { ["highLimit"] = new(Severity(), "High", null!) },
+            Alarms = new Dictionary<string, AlarmDef> { ["highLimit"] = new AlarmDef(Severity(), "High", null!) },
             Features = ["hsv", null!]
         };
 

@@ -17,7 +17,7 @@ namespace SmartHal.Core.UnitTests.Validation;
 /// </summary>
 public sealed class ValidationBoundaryTests
 {
-    private readonly ContractValidator _sut = new();
+    private readonly ContractValidator _sut = new ContractValidator();
 
     [Fact]
     public void Validate_HigherMinorListedBeforeTheLower_ResolvesToTheHigherMinor()
@@ -126,7 +126,8 @@ public sealed class ValidationBoundaryTests
             (ValidationCodes.DuplicateKey, "deviceTypes[1].name"));
     }
 
-    public static TheoryData<NumberType, string, string> NonFiniteNumbers => new()
+    public static TheoryData<NumberType, string, string> NonFiniteNumbers =>
+        new TheoryData<NumberType, string, string>
     {
         { new NumberType(Minimum: double.NaN, Maximum: 1), ValidationCodes.InvalidRange, "dataType.fields.h.minimum" },
         { new NumberType(Minimum: 0, Maximum: double.PositiveInfinity), ValidationCodes.InvalidRange, "dataType.fields.h.maximum" },
@@ -250,7 +251,7 @@ public sealed class ValidationBoundaryTests
         var level = Level();
         var highLimit = level.Alarms["highLimit"] with
         {
-            Parameters = new Dictionary<string, AlarmParameter> { ["limit"] = new(new NumberType(Minimum: 5, Maximum: 1)) }
+            Parameters = new Dictionary<string, AlarmParameter> { ["limit"] = new AlarmParameter(new NumberType(Minimum: 5, Maximum: 1)) }
         };
         var type = level with { Alarms = new Dictionary<string, AlarmDef>(level.Alarms) { ["highLimit"] = highLimit } };
 
