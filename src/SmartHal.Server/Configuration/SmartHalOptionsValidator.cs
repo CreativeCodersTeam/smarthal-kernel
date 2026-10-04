@@ -6,35 +6,24 @@ using SmartHal.Server.Diagnostics;
 namespace SmartHal.Server.Configuration;
 
 /// <summary>
-/// Checks the rules of <see cref="SmartHalOptions"/> that a DataAnnotations attribute cannot
-/// express (FR-22, FR-25, FR-26).
+/// Validates the rules of <see cref="SmartHalOptions"/> that data annotations cannot express.
 /// </summary>
 /// <remarks>
-/// <para>
-/// Every rule is checked, and every violation is collected: the abort message names all of them at
-/// once instead of only the first (FR-25). A violation is reported as
-/// <c>&lt;Section&gt;:&lt;Field&gt;: &lt;Reason&gt;</c>, the form
-/// <see cref="OptionsFailure.Parse"/> reads back, and never carries the configured value (G-9).
-/// </para>
-/// <para>
-/// The data directory is checked against the real file system, because whether it can be created
-/// and written to cannot be decided from the path alone. It is created when it does not exist, and
-/// its writability is proven by a temporary file that is removed again.
-/// </para>
+/// All violations are reported at once. Validation has a side effect: a missing data directory is created.
 /// </remarks>
 public sealed class SmartHalOptionsValidator : IValidateOptions<SmartHalOptions>
 {
     /// <summary>
-    /// The greatest number of characters <see cref="SmartHalOptions.InstanceName"/> may have.
+    /// The maximum length of <see cref="SmartHalOptions.InstanceName"/>.
     /// </summary>
     public const int MaximumInstanceNameLength = 64;
 
     private readonly ILogger<SmartHalOptionsValidator> _logger;
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="SmartHalOptionsValidator"/> class.
+    /// Initializes a new instance of the <see cref="SmartHalOptionsValidator"/> class.
     /// </summary>
-    /// <param name="logger">The logger that reports a data directory the validator had to create.</param>
+    /// <param name="logger">The logger the validator writes to.</param>
     /// <exception cref="ArgumentNullException"><paramref name="logger"/> is <see langword="null"/>.</exception>
     public SmartHalOptionsValidator(ILogger<SmartHalOptionsValidator> logger)
     {
@@ -44,20 +33,17 @@ public sealed class SmartHalOptionsValidator : IValidateOptions<SmartHalOptions>
     }
 
     /// <summary>
-    /// Gets the longest span <see cref="SmartHalOptions.ShutdownTimeout"/> may have.
+    /// Gets the maximum value of <see cref="SmartHalOptions.ShutdownTimeout"/>.
     /// </summary>
-    /// <value><c>00:05:00</c>, the upper bound of the table of IF-4.</value>
+    /// <value>Five minutes.</value>
     public static TimeSpan MaximumShutdownTimeout { get; } = TimeSpan.FromMinutes(5);
 
     /// <summary>
-    /// Checks one bound instance of <see cref="SmartHalOptions"/> against the rules of IF-4.
+    /// Validates the bound <see cref="SmartHalOptions"/>.
     /// </summary>
-    /// <param name="name">The name of the options instance; these options are unnamed.</param>
+    /// <param name="name">The name of the options instance.</param>
     /// <param name="options">The bound options.</param>
-    /// <returns>
-    /// <see cref="ValidateOptionsResult.Success"/> when every rule holds, otherwise a failed result
-    /// carrying one message per violation.
-    /// </returns>
+    /// <returns>The validation result, with one message per violation.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="options"/> is <see langword="null"/>.</exception>
     public ValidateOptionsResult Validate(string? name, SmartHalOptions options)
     {

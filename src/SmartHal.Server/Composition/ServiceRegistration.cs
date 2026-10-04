@@ -14,25 +14,17 @@ using SmartHal.Server.Hosting;
 namespace SmartHal.Server.Composition;
 
 /// <summary>
-/// The service registrations of the composition root; step 3 of the start sequence of section 6.5
-/// calls them (FR-22).
+/// Provides the service registrations of the server.
 /// </summary>
 public static class ServiceRegistration
 {
     /// <summary>
-    /// Registers <see cref="SmartHalOptions"/> so that the section is bound and validated at start.
+    /// Registers <see cref="SmartHalOptions"/>, bound to its section and validated at start.
     /// </summary>
     /// <param name="services">The service collection of the host.</param>
     /// <param name="configuration">The configuration the section is read from.</param>
-    /// <returns><paramref name="services"/>, so further registrations can be chained.</returns>
+    /// <returns>The same service collection, for chaining.</returns>
     /// <exception cref="ArgumentNullException">An argument is <see langword="null"/>.</exception>
-    /// <remarks>
-    /// Validation runs through two validators. The attributes on the options type are checked by
-    /// <c>ValidateDataAnnotations</c>, everything they cannot express by
-    /// <see cref="SmartHalOptionsValidator"/>; both report into the same result, so a single abort
-    /// names every violation (FR-25). <c>ValidateOnStart</c> moves that check in front of the hosted
-    /// services instead of leaving it to the first access (FR-22, FR-23).
-    /// </remarks>
     public static IServiceCollection AddSmartHalOptions(
         this IServiceCollection services,
         IConfiguration configuration)
@@ -56,27 +48,13 @@ public static class ServiceRegistration
     }
 
     /// <summary>
-    /// Registers the readiness signal: the health checks, their schedule and the publisher that
-    /// writes every state change to the log.
+    /// Registers the health checks that report the readiness of the server to the log.
     /// </summary>
     /// <param name="services">The service collection of the host.</param>
-    /// <returns><paramref name="services"/>, so further registrations can be chained.</returns>
+    /// <returns>The same service collection, for chaining.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="services"/> is <see langword="null"/>.</exception>
     /// <remarks>
-    /// <para>
-    /// Every check carries both tags of <see cref="HealthTags"/> (FR-39); the readiness state of
-    /// FR-40 is formed from the <c>ready</c> ones alone, which is what the predicate below selects.
-    /// </para>
-    /// <para>
-    /// The delay and the period are this plan's decision rather than the spec's (G-8): the first
-    /// report follows half a second after the host has started, so a start reaches its ready state
-    /// without a noticeable wait, and the half minute afterwards keeps a healthy process quiet.
-    /// </para>
-    /// <para>
-    /// The package behind this is the host-neutral one. FR-41 forbids a transport, so nothing here
-    /// opens an endpoint, a socket or a file: the state is readable in process through
-    /// <c>HealthCheckService</c> and from outside through the log alone.
-    /// </para>
+    /// No endpoint is opened; the readiness state is only observable through the log.
     /// </remarks>
     public static IServiceCollection AddSmartHalHealth(this IServiceCollection services)
     {
@@ -100,19 +78,11 @@ public static class ServiceRegistration
     }
 
     /// <summary>
-    /// Registers the services of the orderly shutdown - the handler of the shutdown signals and the
-    /// span that bounds the shutdown of the host - and the <see cref="SubSystemHostedService"/>.
+    /// Registers the hosting services: the orderly shutdown and the <see cref="SubSystemHostedService"/>.
     /// </summary>
     /// <param name="services">The service collection of the host.</param>
-    /// <returns><paramref name="services"/>, so further registrations can be chained.</returns>
+    /// <returns>The same service collection, for chaining.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="services"/> is <see langword="null"/>.</exception>
-    /// <remarks>
-    /// The handler ends the process through <see cref="Environment.Exit(int)"/> when a second
-    /// interrupt aborts the shutdown (FR-15, G-7). That call is an argument rather than a line inside
-    /// the handler, so a test can drive the same rule in process; the host fixture of
-    /// <c>SmartHal.IntegrationTests</c> replaces this registration with one that records the exit code
-    /// instead (C-4).
-    /// </remarks>
     public static IServiceCollection AddSmartHalHosting(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
@@ -130,18 +100,11 @@ public static class ServiceRegistration
     }
 
     /// <summary>
-    /// Registers the contract validator that checks schema types and instances against the structural rules of the
-    /// contracts.
+    /// Registers the <see cref="IContractValidator"/> unless one is already registered.
     /// </summary>
     /// <param name="services">The service collection of the host.</param>
-    /// <returns><paramref name="services"/>, so further registrations can be chained.</returns>
+    /// <returns>The same service collection, for chaining.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="services"/> is <see langword="null"/>.</exception>
-    /// <remarks>
-    /// The validator is stateless and thread-safe, so a single instance serves the whole process. It is registered
-    /// through its abstraction only; consumers depend on <see cref="IContractValidator"/>. The registration is
-    /// idempotent: a repeated call, or an implementation registered before it, leaves the existing registration in
-    /// place.
-    /// </remarks>
     public static IServiceCollection AddSmartHalValidation(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);

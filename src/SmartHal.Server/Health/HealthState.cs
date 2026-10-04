@@ -3,7 +3,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 namespace SmartHal.Server.Health;
 
 /// <summary>
-/// The three readiness states of the server process (FR-40).
+/// Specifies the readiness state of the server process.
 /// </summary>
 public enum HealthState
 {
@@ -18,39 +18,25 @@ public enum HealthState
 }
 
 /// <summary>
-/// Turns the reported result of the readiness checks into the state transitions of FR-40.
+/// Derives readiness state transitions from health check results, independent of any host.
 /// </summary>
 /// <remarks>
-/// <para>
-/// The tracker is the rule alone: it neither runs a check nor writes a log event, so the rule can be
-/// stated and verified without a host. <see cref="HealthStateMonitor"/> feeds it and writes the
-/// events.
-/// </para>
-/// <para>
-/// The rule is asymmetric on purpose. Before the first passing report the process is
-/// <see cref="HealthState.Starting"/>, and a failing check does not move it to
-/// <see cref="HealthState.NotReady"/> - a process that has never been ready cannot stop being ready.
-/// Afterwards every change between passing and failing is a transition.
-/// </para>
-/// <para>
-/// An instance is not thread-safe; the publisher that owns it is called one report at a time.
-/// </para>
+/// A process that has never been ready stays <see cref="HealthState.Starting"/> on failing checks.
+/// Instances are not thread-safe.
 /// </remarks>
 public sealed class HealthStateTracker
 {
     /// <summary>
-    /// Gets the state the last reported result left the process in.
+    /// Gets the current readiness state.
     /// </summary>
-    /// <value><see cref="HealthState.Starting"/> until a readiness check has passed for the first time.</value>
+    /// <value>The state after the last result. The default is <see cref="HealthState.Starting"/>.</value>
     public HealthState Current { get; private set; } = HealthState.Starting;
 
     /// <summary>
-    /// Applies one reported result of the readiness checks.
+    /// Applies a health check result and reports a resulting state change.
     /// </summary>
     /// <param name="status">The combined result of the readiness checks.</param>
-    /// <returns>
-    /// The new state when it differs from the previous one, otherwise <see langword="null"/>.
-    /// </returns>
+    /// <returns>The new state if it changed; otherwise, <see langword="null"/>.</returns>
     public HealthState? Apply(HealthStatus status)
     {
         HealthState next;

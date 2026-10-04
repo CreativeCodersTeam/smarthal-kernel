@@ -3,16 +3,17 @@ using System.Text.RegularExpressions;
 namespace SmartHal.Server.Configuration;
 
 /// <summary>
-/// Expands the user profile shortcut and the placeholders in a configured path.
+/// Makes configured paths portable by expanding <c>~</c> and environment placeholders.
 /// </summary>
 public static partial class PathExpansion
 {
     /// <summary>
-    /// Expands a leading <c>~</c> to the user profile and the placeholders <c>%NAME%</c>,
-    /// <c>${NAME}</c> and <c>$NAME</c> to the environment variable of that name or, failing that, to
-    /// the <see cref="Environment.SpecialFolder"/> of that name, such as <c>%CommonApplicationData%</c>.
-    /// A placeholder that resolves to nothing stays as written.
+    /// Expands <c>~</c> and the placeholders <c>%NAME%</c>, <c>${NAME}</c> and <c>$NAME</c> in a path.
     /// </summary>
+    /// <remarks>
+    /// A placeholder resolves to an environment variable or, failing that, to an
+    /// <see cref="Environment.SpecialFolder"/>; an unresolved placeholder stays as written.
+    /// </remarks>
     /// <param name="path">The path as configured.</param>
     /// <returns>The expanded path.</returns>
     public static string Expand(string path)

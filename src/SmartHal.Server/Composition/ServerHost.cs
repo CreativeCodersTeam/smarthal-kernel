@@ -15,35 +15,18 @@ using SmartHal.Server.Hosting;
 namespace SmartHal.Server.Composition;
 
 /// <summary>
-/// The composition root of the server process: it runs the start sequence of section 6.5 and
-/// returns its exit code (IF-5, FR-13, FR-17).
+/// Provides the composition root and lifecycle of the server process.
 /// </summary>
 public static class ServerHost
 {
     /// <summary>
-    /// Runs the server until it is asked to shut down and returns the process exit code.
+    /// Runs the server until it is asked to shut down.
     /// </summary>
-    /// <param name="args">The command line arguments of the process; they form source 6 of the
-    /// configuration stack and carry the host settings such as <c>--environment</c>.</param>
-    /// <param name="configure">An optional callback that runs after the composition root and before
-    /// the host is built. Tests use it to add overrides; it is <see langword="null"/> in production.</param>
-    /// <param name="cancellationToken">Stops the host when it is cancelled.</param>
-    /// <returns>
-    /// <see cref="ExitCodes.Success"/> after an orderly shutdown, <see cref="ExitCodes.UnhandledError"/>
-    /// after an unhandled error while starting, and <see cref="ExitCodes.InvalidConfiguration"/>
-    /// when the configuration could not be built or breaks a validation rule.
-    /// </returns>
+    /// <param name="args">The command line arguments of the process.</param>
+    /// <param name="configure">An optional callback that adjusts the host before it is built, used by tests.</param>
+    /// <param name="cancellationToken">A token that shuts the server down when cancelled.</param>
+    /// <returns>The process exit code, one of the values of <see cref="ExitCodes"/>.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="args"/> is <see langword="null"/>.</exception>
-    /// <remarks>
-    /// Step 1 of the sequence runs before any logger exists, so a failure there is reported on
-    /// standard error instead of the log (G-10). Every configuration event is therefore written once
-    /// the host is built and Serilog stands behind the logger factory. Step 4 validates the bound
-    /// options; the host runs that check before the first hosted service, so an invalid
-    /// configuration ends the process without any of them having started (FR-23). Step 7 waits for
-    /// the shutdown request of a signal, of the lifetime or of <paramref name="cancellationToken"/>,
-    /// and step 8 stops the host exactly once, bounded by <c>SmartHal:ShutdownTimeout</c> plus a
-    /// second of grace (FR-15, FR-16).
-    /// </remarks>
     public static async Task<int> RunAsync(
         string[] args,
         Action<HostApplicationBuilder>? configure = null,

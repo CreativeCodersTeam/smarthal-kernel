@@ -5,14 +5,8 @@ using SmartHal.Server.Configuration;
 namespace SmartHal.Server.Health;
 
 /// <summary>
-/// Reports whether the <c>SmartHal</c> section is bound and validated (FR-43).
+/// Reports the server as ready only when the <c>SmartHal</c> configuration is bound and valid.
 /// </summary>
-/// <remarks>
-/// The check asks the options infrastructure for the bound value. That value only exists once
-/// binding and every validator have passed, so delivering it without an exception is exactly the
-/// statement the check makes. It is the one readiness check slice 0 owns; later slices add their
-/// own next to it.
-/// </remarks>
 public sealed class ConfigurationValidatedHealthCheck : IHealthCheck
 {
     /// <summary>
@@ -23,9 +17,9 @@ public sealed class ConfigurationValidatedHealthCheck : IHealthCheck
     private readonly IOptions<SmartHalOptions> _options;
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="ConfigurationValidatedHealthCheck"/> class.
+    /// Initializes a new instance of the <see cref="ConfigurationValidatedHealthCheck"/> class.
     /// </summary>
-    /// <param name="options">The bound options of the <c>SmartHal</c> section.</param>
+    /// <param name="options">The options of the <c>SmartHal</c> section.</param>
     /// <exception cref="ArgumentNullException"><paramref name="options"/> is <see langword="null"/>.</exception>
     public ConfigurationValidatedHealthCheck(IOptions<SmartHalOptions> options)
     {
@@ -34,15 +28,7 @@ public sealed class ConfigurationValidatedHealthCheck : IHealthCheck
         _options = options;
     }
 
-    /// <summary>
-    /// Checks whether the bound configuration can be delivered.
-    /// </summary>
-    /// <param name="context">The registration this check runs for.</param>
-    /// <param name="cancellationToken">Cancels the check.</param>
-    /// <returns>
-    /// A healthy result naming the configured instance, or an unhealthy one carrying the validation
-    /// error that keeps the configuration from being delivered.
-    /// </returns>
+    /// <inheritdoc/>
     public Task<HealthCheckResult> CheckHealthAsync(
         HealthCheckContext context,
         CancellationToken cancellationToken = default)

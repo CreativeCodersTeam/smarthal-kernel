@@ -4,14 +4,10 @@ using Microsoft.Extensions.Logging;
 namespace SmartHal.Server.Diagnostics;
 
 /// <summary>
-/// The fixed <c>EventId</c>s of the lifecycle, configuration and health events and the strongly
-/// typed log methods that write them (IF-6, FR-34).
+/// Defines the fixed <c>EventId</c>s and log methods of the server, so its events stay machine readable.
 /// </summary>
 /// <remarks>
-/// Slice 0 owns the block <c>1000-1999</c>; each area occupies a hundred of it. The numbers live in
-/// a nested class per area because C# cannot carry a constant and a method of the same name in one
-/// type, and the table of section 6.6 uses the same name for both. Every lifecycle and health log
-/// call of the server goes through one of the methods below, so the events stay machine readable.
+/// Each area owns a range of a hundred IDs within <c>1000-1999</c>.
 /// </remarks>
 public static partial class LogEvents
 {
@@ -112,12 +108,6 @@ public static partial class LogEvents
     /// </summary>
     /// <param name="logger">The logger the event is written to.</param>
     /// <param name="signal">The signal that arrived, for example <see cref="PosixSignal.SIGTERM"/>.</param>
-    /// <remarks>
-    /// The event carries the signal, because <c>SIGTERM</c> and <c>SIGINT</c> lead to the same
-    /// orderly shutdown and the log is the only place that still tells them apart (FR-15, IF-6). It
-    /// is written as the signal itself rather than as its name, so the name is only formatted when
-    /// the event is actually written.
-    /// </remarks>
     [LoggerMessage(
         EventId = Lifecycle.ShutdownRequested,
         Level = LogLevel.Information,
@@ -139,10 +129,6 @@ public static partial class LogEvents
     /// </summary>
     /// <param name="logger">The logger the event is written to.</param>
     /// <param name="shutdownTimeout">The span of <c>SmartHal:ShutdownTimeout</c> that was exceeded.</param>
-    /// <remarks>
-    /// The process ends after this event with <see cref="Composition.ExitCodes.Success"/>: an
-    /// exceeded timeout is a warning rather than an error (FR-16, G-17).
-    /// </remarks>
     [LoggerMessage(
         EventId = Lifecycle.ShutdownTimeoutExceeded,
         Level = LogLevel.Warning,
@@ -215,11 +201,6 @@ public static partial class LogEvents
     /// <param name="section">The configuration section the field belongs to, for example <c>SmartHal</c>.</param>
     /// <param name="field">The name of the field that breaks the rule.</param>
     /// <param name="reason">The rule that was broken, in plain words.</param>
-    /// <remarks>
-    /// The event is written once per violation, so an abort names every one of them (FR-25). It
-    /// never carries the configured value, because slice 0 knows no way to tell a secret field from
-    /// an ordinary one (G-9, NFR-4).
-    /// </remarks>
     [LoggerMessage(
         EventId = Configuration.ConfigurationInvalid,
         Level = LogLevel.Error,
@@ -245,10 +226,6 @@ public static partial class LogEvents
     /// Writes that the readiness checks have started to report.
     /// </summary>
     /// <param name="logger">The logger the event is written to.</param>
-    /// <remarks>
-    /// The event is written once per process, when the first result of the readiness checks arrives.
-    /// Until a check has passed, the process is starting rather than not ready (FR-40).
-    /// </remarks>
     [LoggerMessage(
         EventId = Health.HealthStarting,
         Level = LogLevel.Information,
@@ -271,10 +248,6 @@ public static partial class LogEvents
     /// <param name="logger">The logger the event is written to.</param>
     /// <param name="healthStatus">The combined result of the readiness checks, for example <c>Unhealthy</c>.</param>
     /// <param name="failedChecks">The names of the checks that no longer pass, separated by commas.</param>
-    /// <remarks>
-    /// The names of the checks are part of the event because FR-41 leaves the log as the only way to
-    /// tell from outside the process which check turned the state.
-    /// </remarks>
     [LoggerMessage(
         EventId = Health.HealthNotReady,
         Level = LogLevel.Warning,

@@ -5,14 +5,14 @@ using SmartHal.Server.Diagnostics;
 namespace SmartHal.Server.Hosting;
 
 /// <summary>
-/// Takes part in every step of the host lifecycle and writes each step to the log.
+/// Hooks the sub-system into the lifecycle of the host.
 /// </summary>
 public sealed class SubSystemHostedService : IHostedLifecycleService
 {
     private readonly ILogger<SubSystemHostedService> _logger;
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="SubSystemHostedService"/> class.
+    /// Initializes a new instance of the <see cref="SubSystemHostedService"/> class.
     /// </summary>
     /// <param name="logger">The logger the lifecycle steps are written to.</param>
     /// <exception cref="ArgumentNullException"><paramref name="logger"/> is <see langword="null"/>.</exception>
