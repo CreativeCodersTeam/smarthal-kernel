@@ -5,23 +5,11 @@ using System.Text.Json.Serialization;
 namespace SmartHal.Contracts.Serialization;
 
 /// <summary>
-/// Creates converters that write enums as their snake_case names and read exactly those names and nothing else.
+/// Creates converters that serialize the contract enums strictly as snake_case names.
 /// </summary>
-/// <remarks>
-/// <see cref="JsonStringEnumConverter"/> also reads comma-separated combinations such as <c>"sent, acked"</c> and
-/// C# member names in any casing, which turns malformed input into a valid but wrong value. The converters of this
-/// factory accept one exact snake_case name per value and reject everything else with a <see cref="JsonException"/>;
-/// they also refuse to write a value that is not a declared member. The factory applies to the enums of this
-/// assembly only.
-/// </remarks>
 internal sealed class StrictEnumConverterFactory : JsonConverterFactory
 {
     /// <inheritdoc/>
-    /// <remarks>
-    /// Only the enums of SmartHal.Contracts are converted. An enum of another assembly in a copy of
-    /// <see cref="ContractsJson.Options"/> keeps the default handling of System.Text.Json, so aliases and
-    /// <see cref="JsonStringEnumMemberNameAttribute"/> on such enums are not affected by the strict contract rules.
-    /// </remarks>
     public override bool CanConvert(Type typeToConvert) =>
         typeToConvert.IsEnum && typeToConvert.Assembly == typeof(StrictEnumConverterFactory).Assembly;
 

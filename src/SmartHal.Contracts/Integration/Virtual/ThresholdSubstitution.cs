@@ -5,9 +5,6 @@ namespace SmartHal.Contracts.Integration.Virtual;
 /// <summary>
 /// Chooses between two member calls by comparing a numeric parameter with a threshold.
 /// </summary>
-/// <remarks>
-/// For example, <c>setLevel</c> with <c>level</c> above 0 becomes <c>on</c>, otherwise <c>off</c>.
-/// </remarks>
 /// <param name="Command">The fanned-out command the substitution applies to.</param>
 /// <param name="MemberType">The capability type of the members the substitution serves.</param>
 /// <param name="Param">The numeric parameter of the command that is compared.</param>

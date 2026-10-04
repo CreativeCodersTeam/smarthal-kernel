@@ -3,10 +3,6 @@ namespace SmartHal.Contracts.Primitives;
 /// <summary>
 /// Specifies how a virtual device combines the values of a property across its members.
 /// </summary>
-/// <remarks>
-/// A property definition names the default, for example <see cref="Any"/> for <c>onoff</c> and <see cref="Avg"/>
-/// for <c>level</c>; the internal binding of a virtual device may override it.
-/// </remarks>
 public enum Aggregation
 {
     /// <summary><see langword="true"/> as soon as one member is <see langword="true"/>.</summary>

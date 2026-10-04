@@ -6,17 +6,6 @@ namespace SmartHal.Contracts.Schema;
 /// <summary>
 /// Defines a kind of device: manufacturer, model, the template of its channels and how it is bound.
 /// </summary>
-/// <remarks>
-/// <para>
-/// When a discovered device is approved, its channels and capabilities come from the device type and its binding
-/// from the matching <see cref="BindingTemplate"/>.
-/// </para>
-/// <para>
-/// Equality compares list, dictionary and <see cref="System.Text.Json.Nodes.JsonNode"/> members by reference, not
-/// by content; to compare contents, compare the JSON forms written with
-/// <see cref="SmartHal.Contracts.Serialization.ContractsJson.Options"/>.
-/// </para>
-/// </remarks>
 /// <param name="Name">The namespaced name of the device type, for example <c>acme.trv2</c>.</param>
 /// <param name="Version">The version of the device type.</param>
 /// <param name="Manufacturer">The manufacturer of the device.</param>

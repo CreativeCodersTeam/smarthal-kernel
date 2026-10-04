@@ -6,11 +6,6 @@ namespace SmartHal.Contracts.Api;
 /// <summary>
 /// Lists every schema type the kernel knows.
 /// </summary>
-/// <remarks>
-/// Equality compares list, dictionary and <see cref="System.Text.Json.Nodes.JsonNode"/> members by reference, not
-/// by content; to compare contents, compare the JSON forms written with
-/// <see cref="SmartHal.Contracts.Serialization.ContractsJson.Options"/>.
-/// </remarks>
 /// <param name="Capabilities">The capability types.</param>
 /// <param name="Profiles">The channel profiles.</param>
 /// <param name="DeviceTypes">The device types.</param>

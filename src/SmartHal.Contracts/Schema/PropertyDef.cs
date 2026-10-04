@@ -6,10 +6,6 @@ namespace SmartHal.Contracts.Schema;
 /// <summary>
 /// Defines a property of a capability type.
 /// </summary>
-/// <remarks>
-/// A property is always read-only; its value changes only through commands. For a
-/// <see cref="PropertyCategory.Config"/> property a <c>set&lt;Property&gt;</c> command is derived.
-/// </remarks>
 /// <param name="DataType">The data type of the value, including unit and constraints.</param>
 /// <param name="Category">The role of the property.</param>
 /// <param name="DeriveSetter"><see langword="true"/> to derive a setter command for a state property as well; <see langword="null"/> for

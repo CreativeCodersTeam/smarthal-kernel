@@ -6,21 +6,6 @@ namespace SmartHal.Contracts.Integration;
 /// <summary>
 /// Maps a protocol address to an element of a capability.
 /// </summary>
-/// <remarks>
-/// <para>
-/// On reading the transform chain runs forwards, on writing backwards. A chain without an inverse is permitted for
-/// reading mappings only.
-/// </para>
-/// <para>
-/// When the device reports one of the <see cref="InvalidValues"/>, the binding reports no value but the quality
-/// <c>bad</c> with the reason <c>invalid_value</c>.
-/// </para>
-/// <para>
-/// Equality compares list, dictionary and <see cref="System.Text.Json.Nodes.JsonNode"/> members by reference, not
-/// by content; to compare contents, compare the JSON forms written with
-/// <see cref="SmartHal.Contracts.Serialization.ContractsJson.Options"/>.
-/// </para>
-/// </remarks>
 /// <example>
 /// A Modbus pressure register polled every second, scaled from hundredths of a bar:
 /// <code language="csharp">

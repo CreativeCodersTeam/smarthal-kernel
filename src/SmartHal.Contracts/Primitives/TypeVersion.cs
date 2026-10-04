@@ -8,10 +8,6 @@ namespace SmartHal.Contracts.Primitives;
 /// <summary>
 /// Represents the <c>Major.Minor</c> version a schema type carries, for example <c>2.1</c>.
 /// </summary>
-/// <remarks>
-/// A minor version is purely additive; a major version is incompatible and comes with a capability
-/// migration. In JSON a version is the string <c>"&lt;major&gt;.&lt;minor&gt;"</c>.
-/// </remarks>
 /// <param name="Major">The major version; it changes on incompatible changes.</param>
 /// <param name="Minor">The minor version; it changes on additive changes.</param>
 [JsonConverter(typeof(TypeVersionConverter))]
@@ -29,9 +25,7 @@ public readonly record struct TypeVersion(int Major, int Minor) : IParsable<Type
     /// <param name="s">A string that contains the version to convert.</param>
     /// <returns>The version that <paramref name="s"/> describes.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="s"/> is <see langword="null"/>.</exception>
-    /// <exception cref="FormatException">
-    /// <paramref name="s"/> does not consist of two non-negative integers separated by exactly one dot.
-    /// </exception>
+    /// <exception cref="FormatException"><paramref name="s"/> is not a valid type version.</exception>
     public static TypeVersion Parse(string s)
     {
         ArgumentNullException.ThrowIfNull(s);
@@ -42,14 +36,10 @@ public readonly record struct TypeVersion(int Major, int Minor) : IParsable<Type
     }
 
     /// <summary>
-    /// Converts the text form <c>&lt;major&gt;.&lt;minor&gt;</c> to a <see cref="TypeVersion"/>. A return value
-    /// indicates whether the conversion succeeded.
+    /// Tries to convert the text form <c>&lt;major&gt;.&lt;minor&gt;</c> to a <see cref="TypeVersion"/>.
     /// </summary>
     /// <param name="s">A string that contains the version to convert.</param>
-    /// <param name="result">
-    /// When this method returns, contains the parsed version if the conversion succeeded, or the default value if it
-    /// failed. This parameter is passed uninitialized.
-    /// </param>
+    /// <param name="result">The parsed version, or the default value on failure.</param>
     /// <returns><see langword="true"/> if <paramref name="s"/> was converted successfully; otherwise, <see langword="false"/>.</returns>
     public static bool TryParse([NotNullWhen(true)] string? s, out TypeVersion result)
     {
@@ -75,11 +65,9 @@ public readonly record struct TypeVersion(int Major, int Minor) : IParsable<Type
     }
 
     /// <inheritdoc cref="Parse(string)"/>
-    /// <remarks>The format provider is ignored; the text form is culture-independent.</remarks>
     static TypeVersion IParsable<TypeVersion>.Parse(string s, IFormatProvider? provider) => Parse(s);
 
     /// <inheritdoc cref="TryParse(string?, out TypeVersion)"/>
-    /// <remarks>The format provider is ignored; the text form is culture-independent.</remarks>
     static bool IParsable<TypeVersion>.TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, out TypeVersion result) =>
         TryParse(s, out result);
 }

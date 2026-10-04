@@ -3,10 +3,6 @@ namespace SmartHal.Contracts.Runtime;
 /// <summary>
 /// Specifies the lifecycle stage of a command invocation.
 /// </summary>
-/// <remarks>
-/// The regular path is pending, sent, acked and then one of the final stages completed, partial, failed, timeout or
-/// cancelled.
-/// </remarks>
 public enum CommandStatus
 {
     /// <summary>The invocation waits to be sent, for example until a sleepy device wakes up.</summary>

@@ -6,22 +6,6 @@ namespace SmartHal.Contracts.Integration;
 /// <summary>
 /// Assigns a device to an adapter, or to internal logic for a virtual device.
 /// </summary>
-/// <remarks>
-/// <para>
-/// A device may be connected through several bindings, for example Matter locally plus a vendor cloud, but every
-/// capability has exactly one binding as its source.
-/// </para>
-/// <para>
-/// A protocol binding takes its mappings from the <see cref="BindingTemplate"/> of the device type, fills in the
-/// placeholders from <see cref="Parameters"/> and may override single mappings. Overrides are marked and survive an
-/// update of the template.
-/// </para>
-/// <para>
-/// Equality compares list, dictionary and <see cref="System.Text.Json.Nodes.JsonNode"/> members by reference, not
-/// by content; to compare contents, compare the JSON forms written with
-/// <see cref="SmartHal.Contracts.Serialization.ContractsJson.Options"/>.
-/// </para>
-/// </remarks>
 /// <param name="Id">The immutable id of the binding.</param>
 /// <param name="DeviceId">The id of the bound device.</param>
 /// <param name="Kind">Whether the binding is a protocol binding or an internal one.</param>

@@ -3,9 +3,6 @@ namespace SmartHal.Contracts.Integration;
 /// <summary>
 /// Provides the names of the known protocols.
 /// </summary>
-/// <remarks>
-/// The list is open: a protocol is a plain string, so new adapters can add their own names.
-/// </remarks>
 public static class Protocols
 {
     /// <summary>The Matter protocol.</summary>

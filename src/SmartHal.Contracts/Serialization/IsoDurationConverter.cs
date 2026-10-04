@@ -6,23 +6,12 @@ using System.Xml;
 namespace SmartHal.Contracts.Serialization;
 
 /// <summary>
-/// Converts a <see cref="TimeSpan"/> to and from an ISO 8601 duration such as <c>"PT30S"</c> instead of the default
-/// form <c>"00:00:30"</c>.
+/// Converts a <see cref="TimeSpan"/> to and from an ISO 8601 duration such as <c>"PT30S"</c>.
 /// </summary>
-/// <remarks>
-/// Only exact, non-negative durations in days, hours, minutes and seconds are accepted, for example <c>"P90D"</c>,
-/// <c>"PT1H30M"</c> or <c>"PT0.5S"</c>; only seconds may carry a fraction, of at most seven digits. Years and months (<c>"P1Y"</c>,
-/// <c>"P1M"</c>) are rejected because they
-/// have no fixed length and <c>"P1M"</c> is easily mistaken for <c>"PT1M"</c>; negative durations are rejected in
-/// both directions.
-/// </remarks>
 public sealed partial class IsoDurationConverter : JsonConverter<TimeSpan>
 {
     /// <inheritdoc/>
-    /// <exception cref="JsonException">
-    /// The current token is not a string, or the string is not a non-negative ISO 8601 duration in days, hours,
-    /// minutes and seconds.
-    /// </exception>
+    /// <exception cref="JsonException">The token is not a non-negative ISO 8601 duration.</exception>
     public override TimeSpan Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.String)

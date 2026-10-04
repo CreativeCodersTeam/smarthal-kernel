@@ -5,16 +5,6 @@ namespace SmartHal.Contracts.Topology;
 /// <summary>
 /// Describes a place in the location hierarchy: site, building, floor, room or zone.
 /// </summary>
-/// <remarks>
-/// <para>
-/// The model knows locations only, no assets. A device is installed at a location and a channel may override it.
-/// </para>
-/// <para>
-/// Equality compares list, dictionary and <see cref="System.Text.Json.Nodes.JsonNode"/> members by reference, not
-/// by content; to compare contents, compare the JSON forms written with
-/// <see cref="SmartHal.Contracts.Serialization.ContractsJson.Options"/>.
-/// </para>
-/// </remarks>
 /// <param name="Id">The immutable id of the location.</param>
 /// <param name="Key">The readable key of the location.</param>
 /// <param name="Name">The display name of the location.</param>

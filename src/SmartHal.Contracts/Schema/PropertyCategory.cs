@@ -3,10 +3,6 @@ namespace SmartHal.Contracts.Schema;
 /// <summary>
 /// Specifies the role of a property.
 /// </summary>
-/// <remarks>
-/// Every property is read-only; values change through commands only. For a <see cref="Config"/> property a
-/// <c>set&lt;Property&gt;</c> command is derived automatically.
-/// </remarks>
 public enum PropertyCategory
 {
     /// <summary>A state the device reports, for example whether a light is on.</summary>

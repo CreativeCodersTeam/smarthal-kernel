@@ -3,9 +3,6 @@ namespace SmartHal.Contracts.Runtime;
 /// <summary>
 /// Provides the known reasons for a quality other than good.
 /// </summary>
-/// <remarks>
-/// The list is open: a reason is a plain string, so new reasons can be added without a contract change.
-/// </remarks>
 public static class QualityReasons
 {
     /// <summary>A gateway on the way to the device is offline.</summary>

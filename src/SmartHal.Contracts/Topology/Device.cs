@@ -3,24 +3,8 @@ using SmartHal.Contracts.Primitives;
 namespace SmartHal.Contracts.Topology;
 
 /// <summary>
-/// Describes a device: its identity, its lifecycle and the container of its channels.
+/// Describes a device and its channels.
 /// </summary>
-/// <remarks>
-/// <para>
-/// Values never hang off the device directly but always off a capability. Every device has exactly one root channel
-/// <c>0</c> with the device-wide functions.
-/// </para>
-/// <para>
-/// A gateway is an ordinary device with <c>core.bridge</c> on its root channel; its sub-devices point to it through
-/// <see cref="ConnectedVia"/>, over several stages if needed. A virtual device uses the same model with an internal
-/// binding instead of a protocol binding.
-/// </para>
-/// <para>
-/// Equality compares list, dictionary and <see cref="System.Text.Json.Nodes.JsonNode"/> members by reference, not
-/// by content; to compare contents, compare the JSON forms written with
-/// <see cref="SmartHal.Contracts.Serialization.ContractsJson.Options"/>.
-/// </para>
-/// </remarks>
 /// <param name="Id">The immutable id of the device.</param>
 /// <param name="Key">The globally unique key of the device, for example <c>halle2.pumpe3</c>.</param>
 /// <param name="Name">The display name of the device.</param>

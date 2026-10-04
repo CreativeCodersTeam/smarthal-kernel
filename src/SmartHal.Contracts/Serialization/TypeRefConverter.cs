@@ -10,7 +10,7 @@ namespace SmartHal.Contracts.Serialization;
 public sealed class TypeRefConverter : JsonConverter<TypeRef>
 {
     /// <inheritdoc/>
-    /// <exception cref="JsonException">The current token is not a string, or the string is not a valid type reference.</exception>
+    /// <exception cref="JsonException">The token is not a valid type reference.</exception>
     public override TypeRef Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.String)
@@ -26,10 +26,7 @@ public sealed class TypeRefConverter : JsonConverter<TypeRef>
     }
 
     /// <inheritdoc/>
-    /// <exception cref="JsonException">
-    /// <paramref name="value"/> has no valid text form, for example a default instance or one built with
-    /// parts that <see cref="TypeRef.Parse(string)"/> would reject.
-    /// </exception>
+    /// <exception cref="JsonException"><paramref name="value"/> has no valid text form.</exception>
     public override void Write(Utf8JsonWriter writer, TypeRef value, JsonSerializerOptions options)
     {
         ArgumentNullException.ThrowIfNull(writer);

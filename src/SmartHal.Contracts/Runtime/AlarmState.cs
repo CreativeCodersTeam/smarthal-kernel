@@ -3,10 +3,6 @@ namespace SmartHal.Contracts.Runtime;
 /// <summary>
 /// Specifies the state of an alarm instance after ISA-18.2.
 /// </summary>
-/// <remarks>
-/// An alarm moves from active/unacked either to active/acked and then to cleared, or to cleared/unacked and then to
-/// cleared.
-/// </remarks>
 public enum AlarmState
 {
     /// <summary>The condition is present and nobody has acknowledged the alarm.</summary>

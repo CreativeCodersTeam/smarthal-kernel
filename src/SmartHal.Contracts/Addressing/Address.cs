@@ -14,7 +14,6 @@ public sealed record Address(Guid DeviceId, Guid ChannelId, Guid CapabilityId, s
     /// <summary>
     /// Gets the address of the capability that owns the element.
     /// </summary>
-    /// <value>The same device, channel and capability ids without the element; not serialized.</value>
     [JsonIgnore]
     public CapabilityAddress Capability => new CapabilityAddress(DeviceId, ChannelId, CapabilityId);
 }

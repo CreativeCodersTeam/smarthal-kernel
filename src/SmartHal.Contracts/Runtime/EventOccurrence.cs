@@ -5,18 +5,8 @@ using SmartHal.Contracts.Primitives;
 namespace SmartHal.Contracts.Runtime;
 
 /// <summary>
-/// Describes one occurrence of an event; it never changes afterwards.
+/// Describes one occurrence of an event.
 /// </summary>
-/// <remarks>
-/// <para>
-/// Every state change of an alarm produces an event occurrence as well.
-/// </para>
-/// <para>
-/// Equality compares list, dictionary and <see cref="System.Text.Json.Nodes.JsonNode"/> members by reference, not
-/// by content; to compare contents, compare the JSON forms written with
-/// <see cref="SmartHal.Contracts.Serialization.ContractsJson.Options"/>.
-/// </para>
-/// </remarks>
 /// <param name="Id">The immutable id of the occurrence.</param>
 /// <param name="Address">The address of the event, which names its source.</param>
 /// <param name="OccurredAt">The time the event occurred.</param>
