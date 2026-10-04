@@ -159,6 +159,44 @@ public sealed class LoggingTests : IDisposable
     }
 
     [Fact]
+    public async Task GivenShippedConfigurationInDevelopment_WhenServerProcessRuns_ThenConsoleIsColouredText()
+    {
+        // Arrange
+        // appsettings.json still carries the JSON formatter in Development; this run proves that the
+        // outputTemplate and theme of appsettings.Development.json select the themed overload anyway.
+        foreach (var fileName in new[] { "appsettings.json", "appsettings.Development.json" })
+        {
+            File.Copy(Path.Combine(AppContext.BaseDirectory, fileName), Path.Combine(_tempDirectory, fileName));
+        }
+
+        var options = new ProcessRunOptions
+        {
+            WorkingDirectory = _tempDirectory,
+            StopWhenStdOutMatches = line => line.Contains("Application started", StringComparison.Ordinal)
+        };
+
+        options.EnvironmentVariables["DOTNET_ENVIRONMENT"] = "Development";
+        options.EnvironmentVariables["SMARTHAL_CONFIG_FILE"] = null;
+        options.EnvironmentVariables["SMARTHAL_SmartHal__DataDirectory"] = Path.Combine(_tempDirectory, "data");
+
+        // The runner redirects standard output, and the sink drops the theme on redirected output.
+        options.EnvironmentVariables["SMARTHAL_Serilog__WriteTo__Console__Args__applyThemeToRedirectedOutput"] = "true";
+
+        // Act
+        var result = await ServerProcessRunner.RunAsync(options);
+
+        // Assert
+        result.StdErr.Should().BeEmpty();
+        result.StdOut.Should().NotBeEmpty("the host logs its start to the console");
+        result.StdOut.Should().OnlyContain(
+            line => ParseOrNull(line) == null,
+            "Development writes readable text, not the compact JSON of appsettings.json (FR-29)");
+        result.StdOut.Should().OnlyContain(
+            line => line.Contains('\u001b'),
+            "the Code theme colours every console line with ANSI escape sequences");
+    }
+
+    [Fact]
     public void AppSettings_SerilogSection_ConfiguresJsonConsoleInProductionAndTextInDevelopment()
     {
         // Arrange
@@ -167,17 +205,18 @@ public sealed class LoggingTests : IDisposable
 
         // Act
         var productionFormatter = production["Serilog:WriteTo:Console:Args:formatter:type"];
-        var developmentFormatterType = development["Serilog:WriteTo:Console:Args:formatter:type"];
-        var developmentOutputTemplate = development["Serilog:WriteTo:Console:Args:formatter:outputTemplate"];
+        var developmentOutputTemplate = development["Serilog:WriteTo:Console:Args:outputTemplate"];
+        var developmentTheme = development["Serilog:WriteTo:Console:Args:theme"];
 
         // Act & Assert
         productionFormatter.Should().Be(
             "Serilog.Formatting.Compact.CompactJsonFormatter, Serilog.Formatting.Compact",
             "outside Development the console sink writes compact JSON (FR-29, NFR-6)");
-        developmentFormatterType.Should().Be(
-            "Serilog.Formatting.Display.MessageTemplateTextFormatter, Serilog",
+        developmentOutputTemplate.Should().NotBeNullOrWhiteSpace(
             "in Development the console sink writes readable text (FR-29, G-18)");
-        developmentOutputTemplate.Should().NotBeNullOrWhiteSpace();
+        developmentTheme.Should().Be(
+            "Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme::Code, Serilog.Sinks.Console",
+            "in Development the readable text is coloured with the Code theme");
     }
 
     [Fact]
