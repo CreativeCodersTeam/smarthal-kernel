@@ -100,8 +100,8 @@ public static class ServiceRegistration
     }
 
     /// <summary>
-    /// Registers the services of the orderly shutdown: the handler of the shutdown signals and the
-    /// span that bounds the shutdown of the host.
+    /// Registers the services of the orderly shutdown - the handler of the shutdown signals and the
+    /// span that bounds the shutdown of the host - and the <see cref="SubSystemHostedService"/>.
     /// </summary>
     /// <param name="services">The service collection of the host.</param>
     /// <returns><paramref name="services"/>, so further registrations can be chained.</returns>
@@ -123,6 +123,8 @@ public static class ServiceRegistration
             serviceProvider.GetRequiredService<IHostApplicationLifetime>(),
             serviceProvider.GetRequiredService<ILogger<ShutdownSignalHandler>>(),
             Environment.Exit));
+
+        services.AddHostedService<SubSystemHostedService>();
 
         return services;
     }

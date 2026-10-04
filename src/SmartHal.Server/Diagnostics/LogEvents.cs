@@ -77,6 +77,13 @@ public static partial class LogEvents
         public const int HealthNotReady = 1202;
     }
 
+    /// <summary>The sub-system events of the server process (<c>1300-1399</c>).</summary>
+    public static class SubSystem
+    {
+        /// <summary>The sub-system passed a step of the host lifecycle.</summary>
+        public const int SubSystemLifecycleStep = 1300;
+    }
+
 #pragma warning restore S3218
 
     /// <summary>
@@ -273,4 +280,15 @@ public static partial class LogEvents
         Level = LogLevel.Warning,
         Message = "The SmartHal server is not ready: the readiness checks report '{HealthStatus}'; failing checks: {FailedChecks}.")]
     public static partial void HealthNotReady(this ILogger logger, string healthStatus, string failedChecks);
+
+    /// <summary>
+    /// Writes that the sub-system passed a step of the host lifecycle.
+    /// </summary>
+    /// <param name="logger">The logger the event is written to.</param>
+    /// <param name="step">The lifecycle method that ran, for example <c>StartAsync</c>.</param>
+    [LoggerMessage(
+        EventId = SubSystem.SubSystemLifecycleStep,
+        Level = LogLevel.Debug,
+        Message = "The sub-system passed the lifecycle step '{Step}'.")]
+    public static partial void SubSystemLifecycleStep(this ILogger logger, string step);
 }

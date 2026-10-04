@@ -21,7 +21,8 @@ public sealed class LogEventsTests
     [
         ("Lifecycle", 1000, 1099),
         ("Configuration", 1100, 1199),
-        ("Health", 1200, 1299)
+        ("Health", 1200, 1299),
+        ("SubSystem", 1300, 1399)
     ];
 
     [Fact]
