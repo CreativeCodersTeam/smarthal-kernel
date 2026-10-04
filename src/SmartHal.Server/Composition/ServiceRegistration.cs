@@ -42,8 +42,11 @@ public static class ServiceRegistration
 
         // BindConfiguration takes the same configuration out of the container rather than capturing
         // the instance above, so the binding follows a reload of the sources.
+        // PostConfigure runs between binding and validation, so the validator and every consumer see
+        // the expanded path.
         services.AddOptions<SmartHalOptions>()
             .BindConfiguration(SmartHalOptions.SectionName)
+            .PostConfigure(options => options.DataDirectory = PathExpansion.Expand(options.DataDirectory))
             .ValidateDataAnnotations()
             .ValidateOnStart();
 

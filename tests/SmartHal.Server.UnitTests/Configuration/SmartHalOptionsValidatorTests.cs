@@ -241,6 +241,29 @@ public sealed class SmartHalOptionsValidatorTests : IDisposable
             "an empty configuration leaves the mandatory fields unset, and validation happens at start");
     }
 
+    [Fact]
+    public void ServiceRegistration_AddSmartHalOptions_ExpandsDataDirectory()
+    {
+        // Arrange
+        // Only the wiring is checked here; the expansion rules themselves are covered by PathExpansionTests.
+        var services = new ServiceCollection();
+        var configuration = new ConfigurationBuilder().Build();
+        services.AddSingleton<IConfiguration>(configuration);
+        ServiceRegistration.AddSmartHalOptions(services, configuration);
+        using var provider = services.BuildServiceProvider();
+        var options = new SmartHalOptions { DataDirectory = "~/data" };
+
+        // Act
+        foreach (var step in provider.GetServices<IPostConfigureOptions<SmartHalOptions>>())
+        {
+            step.PostConfigure(Options.DefaultName, options);
+        }
+
+        // Assert
+        options.DataDirectory.Should().Be(
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/data");
+    }
+
     public void Dispose()
     {
         if (Directory.Exists(_tempDirectory))

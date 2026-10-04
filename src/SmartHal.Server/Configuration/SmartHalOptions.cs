@@ -39,7 +39,9 @@ public sealed class SmartHalOptions
     /// </summary>
     /// <value>
     /// A mandatory path. It is created when it does not exist and has to be writable; it has no
-    /// default.
+    /// default. A leading <c>~</c> and the placeholders <c>%NAME%</c>, <c>${NAME}</c> and
+    /// <c>$NAME</c> (environment variables, then <see cref="Environment.SpecialFolder"/> names) are
+    /// expanded when the section is bound.
     /// </value>
     [Required]
     public string DataDirectory { get; set; } = "";
