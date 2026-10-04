@@ -1,0 +1,12 @@
+<Project>
+
+  <!-- Own package versions for the build project; keeps the repository's GlobalPackageReferences out of it. -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="CreativeCoders.CakeBuild" Version="6.10.0" />
+  </ItemGroup>
+
+</Project>

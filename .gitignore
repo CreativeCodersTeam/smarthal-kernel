@@ -62,3 +62,7 @@ nunit-*.xml
 
 *.DotSettings.user
 .tokensave
+
+# Cake build output (build/)
+.artifacts/
+.tests/

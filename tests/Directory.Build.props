@@ -26,4 +26,10 @@
     <PackageReference Include="AwesomeAssertions" />
   </ItemGroup>
 
+  <!-- Microsoft.Testing.Platform extensions for the TRX and Cobertura output of the Cake test task (build/). -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+  </ItemGroup>
+
 </Project>

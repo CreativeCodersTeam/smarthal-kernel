@@ -30,7 +30,8 @@ public sealed class ProjectPropertiesTests
         "TngTech.ArchUnitNET",
         "TngTech.ArchUnitNET.xUnitV3",
         "Microsoft.Extensions.Diagnostics.Testing",
-        "Microsoft.Testing.Extensions.TrxReport"
+        "Microsoft.Testing.Extensions.TrxReport",
+        "Microsoft.Testing.Extensions.CodeCoverage"
     ];
 
     // The test projects of the production projects that are still empty. SmartHal.Contracts and SmartHal.Core carry

@@ -1,0 +1,43 @@
+version: 2
+
+updates:
+  - package-ecosystem: "nuget"
+    # The build project (build/) keeps its own Directory.Packages.props.
+    directories:
+      - "/"
+      - "/build"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 10
+    groups:
+      # Tier 1: Dev/Test dependencies — auto-merge on patch + minor
+      dev-dependencies:
+        patterns:
+          - "xunit*"
+          - "FakeItEasy"
+          - "AwesomeAssertions"
+          - "Microsoft.NET.Test.Sdk"
+          - "Microsoft.Testing.*"
+          - "TngTech.ArchUnitNET*"
+          - "Microsoft.Extensions.Diagnostics.Testing"
+          - "Roslynator.Analyzers"
+          - "SonarAnalyzer.CSharp"
+          - "CreativeCoders.CakeBuild"
+      # Tier 2: Production dependencies — auto-merge on patch only
+      microsoft-packages:
+        patterns:
+          - "Microsoft.Extensions.*"
+      serilog-packages:
+        patterns:
+          - "Serilog.*"
+      # Catch-all: Any package not matched by the groups above.
+      # Dependabot assigns each package to the first matching group only,
+      # so this will never include packages already covered above.
+      other-dependencies:
+        patterns:
+          - "*"
+    labels:
+      - "dependencies"

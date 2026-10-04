@@ -1,0 +1,50 @@
+name: main
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            targets: -t nugetpush -t publish -t createdistpackages
+          - os: windows-latest
+            targets: -t pack
+          - os: macos-latest
+            targets: -t pack
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: 'Cache: ~/.nuget/packages'
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.nuget/packages
+          key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
+      - name: 'Build with targets: ${{ matrix.targets }}'
+        run: ./build.cmd ${{ matrix.targets }}
+        env:
+          NUGET_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 'Publish: coverage_report'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-${{ runner.os }}
+          path: .tests/coverage-report
+      - name: 'Publish: dist packages'
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-packages
+          path: .artifacts/dist/*.tar.gz

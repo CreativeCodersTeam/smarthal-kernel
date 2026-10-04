@@ -1,0 +1,8 @@
+<Project>
+
+  <!--
+    The build project is not part of the product: it stops the inheritance of the repository-wide
+    Directory.Build.props (analyzers, warnings as errors, package metadata).
+  -->
+
+</Project>
